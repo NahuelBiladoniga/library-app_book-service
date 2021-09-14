@@ -1,4 +1,7 @@
-generate-swagger:
+install-swagger:
+	swagger version || go get -u github.com/go-swagger/go-swagger/cmd/swagger
+
+generate-swagger: install-swagger
 	swagger generate spec -o ./cmd/api/static/swagger.yaml --scan-models
 
 run-prod-image: generate-swagger
