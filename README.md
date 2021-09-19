@@ -1,6 +1,6 @@
 Environment variables that need to be set:
 
-* `NODE_ENS`
+* `NODE_ENV`
 * `DB_HOST`
 * `DB_USER`
 * `DB_PASS`
