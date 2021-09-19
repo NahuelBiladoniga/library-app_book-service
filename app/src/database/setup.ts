@@ -18,7 +18,7 @@ fs
     })
     .forEach((file: string) => {
         // Realize the import, this is the operation that takes too long.
-        const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes)
+        const model = require(path.join(__dirname, 'models', file))(sequelize, Sequelize.DataTypes)
         db[model.name] = model
     })
 
