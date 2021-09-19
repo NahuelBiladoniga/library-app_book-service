@@ -1,5 +1,3 @@
-import {RequestError} from "../middlewares/RequestError";
-
 export function isProdScope(): boolean {
     return process.env.NODE_ENV == 'production'
 }
