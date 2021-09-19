@@ -1,9 +1,6 @@
 # Mac OS X files
 .DS_STORE
 
-# Logs, for example morgan
-**/*.log
-
 # Dependency directories
 **/node_modules/
 
