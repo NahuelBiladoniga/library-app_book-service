@@ -1,15 +1,14 @@
-# Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
+# Mac OS X files
+.DS_STORE
 
-# Test binary, built with `go test -c`
-*.test
+# Dependency directories
+**/node_modules/
 
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
+# JetBrains Metadata
+.idea/
 
-# Dependency directories (remove the comment below to include it)
-# vendor/
+# Build folder
+**/build/**
+
+# Env
+.env
