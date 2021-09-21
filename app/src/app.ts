@@ -13,16 +13,15 @@ export class App {
     constructor() {
         this.app = express()
         this.settings()
-        this.preMiddlewares()
+        this.middlewares()
         this.routes()
-        this.postMiddlewares()
     }
 
     settings() {
         this.app.set('port', getPort())
     }
 
-    preMiddlewares() {
+    middlewares() {
         // Instead of this, maybe we can route always to STDOUT.
         if (isProdScope()) {
             const morganLogStream = fs.createWriteStream(path.join(__dirname, '/../morgan.log'), {flags: 'a'})
@@ -37,14 +36,11 @@ export class App {
         }
 
         this.app.use(express.json())
+        this.app.use(errorHandler)
     }
 
     routes() {
         this.app.use('/login', LoginRoutes)
-    }
-
-    postMiddlewares() {
-        this.app.use(errorHandler)
     }
 
     async listen() {
