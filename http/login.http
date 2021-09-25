@@ -1,9 +1,29 @@
+### Login
 POST {{base_url}}:{{port}}/login
 Content-Type: application/json
 
 {
   "email": "lorem@ipsum.com",
   "password": "dolor_sit_amet"
+}
+
+> {%
+client.global.set('auth-token', response.headers.valueOf('auth-token'));
+
+client.test('Request executed successfully', function() {
+  client.assert(response.status === 200, 'Response status is not 200');
+});
+%}
+
+### Register
+POST {{base_url}}:{{port}}/register
+Content-Type: application/json
+
+{
+  "name": "Test",
+  "email": "lorem@ipsumm.cm",
+  "password": "dolor_sit_amet",
+  "organization":"test-organization"
 }
 
 > {%

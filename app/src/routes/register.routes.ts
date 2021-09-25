@@ -1,6 +1,6 @@
 import {Router} from 'express'
 
-import {adminController} from '../controllers/adminController'
+import {adminController} from '../controllers/registerController'
 
 const router: Router = Router()
 
