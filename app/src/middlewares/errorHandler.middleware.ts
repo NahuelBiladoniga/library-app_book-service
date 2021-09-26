@@ -1,22 +1,23 @@
 import {NextFunction, Request, Response} from 'express'
-import {RequestError} from './RequestError'
-import {JsonWebTokenError} from 'jsonwebtoken'
+import {RequestErrorDto} from './requestError.dto'
+import {JsonWebTokenError, TokenExpiredError} from 'jsonwebtoken'
 
-export default async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        next()
-    } catch (err) {
+class ErrorHandling {
+    async handle(err: Error, req: Request, res: Response, _: NextFunction) {
         let message: string
         let status: number
 
         switch (true) {
-            case err instanceof RequestError:
-                status = (err as RequestError).status
+            case err instanceof RequestErrorDto:
+                status = (err as RequestErrorDto).status
                 message = err.message
                 break
             case err instanceof JsonWebTokenError:
                 status = 400
                 message = err.message || 'Error with Auth Token'
+                break
+            case err instanceof TokenExpiredError:
+                // TODO(santiagotoscanini): Implement this.
                 break
             default:
                 status = 500
@@ -25,3 +26,5 @@ export default async (req: Request, res: Response, next: NextFunction) => {
         return res.status(status).json({'message': message})
     }
 }
+
+export default new ErrorHandling()

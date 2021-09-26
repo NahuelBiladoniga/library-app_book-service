@@ -22,9 +22,8 @@ export function getDBConfig() {
 
 export function getJWTSecretKey(): string {
     let JWTSecretKey = process.env.JWT_SECRET_KEY
-    if (JWTSecretKey != undefined) {
-        return JWTSecretKey
-    } else {
+    if (JWTSecretKey == undefined) {
         throw new Error('Secret need to be set!')
     }
+    return JWTSecretKey
 }

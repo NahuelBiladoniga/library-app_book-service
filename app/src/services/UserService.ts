@@ -1,6 +1,6 @@
 import {AdminDto} from "../dtos/AdminDto";
 import db from "../database/setup";
-import {RequestError} from "../middlewares/RequestError";
+import {RequestErrorDto} from "../middlewares/requestError.dto";
 import {LoginServices} from "./LoginServices";
 import {RegisterResponseDto} from "../dtos/RegisterReponseDto";
 import {OrganizationService} from "./OrganizationService";
@@ -28,7 +28,7 @@ export class UserService {
     private static async checkIsUserRegister(email: string) {
         const user = await db.User.findByPk(email)
         if (user != null) {
-            throw new RequestError("User already exist", 400)
+            throw new RequestErrorDto("User already exist", 400)
         }
     }
 }

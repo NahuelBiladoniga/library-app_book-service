@@ -4,19 +4,23 @@ import {UserService} from "../services/UserService";
 
 class RegisterController {
     public async signUp(req: Request, res: Response, next: NextFunction) {
-        const {name, email, password, organization} = req.body
-        const adminDto = new AdminDto({
-            name: name,
-            email: email,
-            password: password,
-            organization: organization
-        })
+        try {
+            const {name, email, password, organization} = req.body
+            const adminDto = new AdminDto({
+                name: name,
+                email: email,
+                password: password,
+                organization: organization,
+            })
 
-        let response = await UserService.createAdmin(adminDto)
-        res.header('auth-token', response.attributes.authToken)
-            .header('api-token', response.attributes.apiToken)
-            .json({email: email, roles: response.attributes.roles})
+            let response = await UserService.createAdmin(adminDto)
+            res.header('auth-token', response.attributes.authToken)
+                .header('api-token', response.attributes.apiToken)
+                .json({email: email, roles: response.attributes.roles})
+        } catch (err) {
+            next(err)
+        }
     }
 }
 
-export const adminController: RegisterController = new RegisterController()
+export default new RegisterController()

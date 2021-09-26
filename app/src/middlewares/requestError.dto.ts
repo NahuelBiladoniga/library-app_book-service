@@ -1,4 +1,4 @@
-export class RequestError extends Error {
+export class RequestErrorDto extends Error {
     public status: number
 
     constructor(message?: string, status?: number) {

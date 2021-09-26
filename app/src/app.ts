@@ -5,7 +5,8 @@ import fs from 'fs'
 
 import LoginRoutes from './routes/login.routes'
 import AdminRoutes from './routes/register.routes'
-import errorHandler from './middlewares/errorHandler'
+import InvitationRoutes from './routes/invitations.routes'
+import ErrorHandler from './middlewares/errorHandler.middleware'
 import {getPort, isProdScope} from "./utils/environment";
 
 export class App {
@@ -16,37 +17,41 @@ export class App {
         this.settings()
         this.middlewares()
         this.routes()
+        // Used before routes to handle exceptions.
+        this.app.use(ErrorHandler.handle)
     }
 
     settings() {
         this.app.set('port', getPort())
     }
 
-    middlewares() {
-        // Instead of this, maybe we can route always to STDOUT.
+    logMiddleware() {
+        // TODO(santiagotoscanini): Instead of this, maybe we can route always to STDOUT.
         if (isProdScope()) {
-            const morganLogStream = fs.createWriteStream(path.join(__dirname, '/../morgan.log'), {flags: 'a'})
 
-            this.app.use(morgan('common', {
+            const morganLogStream = fs.createWriteStream(path.join(__dirname, '/../morgan.log'), {flags: 'a'})
+            return morgan('common', {
                 skip: (req: Request, res: Response) => {
                     return res.statusCode < 400
                 }, stream: morganLogStream
-            }))
+            })
         } else {
-            this.app.use(morgan('dev'))
+            return morgan('dev')
         }
+    }
 
+    middlewares() {
+        this.app.use(this.logMiddleware())
         this.app.use(express.json())
-        this.app.use(errorHandler)
     }
 
     routes() {
         this.app.use('/login', LoginRoutes)
         this.app.use('/register', AdminRoutes)
+        this.app.use('/invitations', InvitationRoutes)
     }
 
     async listen() {
         await this.app.listen(this.app.get('port'))
-        console.log('App start listening on ', this.app.get('port'))
     }
 }
