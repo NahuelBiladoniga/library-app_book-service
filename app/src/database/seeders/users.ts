@@ -4,13 +4,13 @@ export const users = [
         email: 'santi@library.com',
         password: 'secret-pass',
         organizationName: 'Aulas',
-        roles: 'admin'
+        roles: 'admin,'
     },
     {
         name: 'Sofia Tejerina',
         email: 'lorem@ipsum.com',
         password: 'dolor_sit_amet',
         organizationName: 'Eva',
-        roles: 'admin'
+        roles: 'admin,'
     }
 ]

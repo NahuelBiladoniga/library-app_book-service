@@ -2,13 +2,13 @@ type AdminRegisterAttributes = {
     name: string
     email: string
     password: string
-    organization: string
+    organizationName: string
 }
 
-export class AdminDto{
+export class AdminDto {
     attributes: AdminRegisterAttributes
 
-    constructor(attributes: {name: string; email: string; password: string; organization: string}){
+    constructor(attributes: { name: string; email: string; password: string; organizationName: string }) {
         this.attributes = attributes
     }
 }

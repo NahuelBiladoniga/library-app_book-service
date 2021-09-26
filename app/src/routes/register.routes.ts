@@ -1,9 +1,9 @@
 import {Router} from 'express'
 
-import {adminController} from '../controllers/registerController'
+import RegisterController from '../controllers/register.controller'
 
 const router: Router = Router()
 
-router.post('/', adminController.signUp)
+router.post('/', RegisterController.signUp)
 
 export default router

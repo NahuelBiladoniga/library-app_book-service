@@ -1,5 +1,5 @@
 import {NextFunction, Request, Response} from 'express'
-import {RequestErrorDto} from './requestError.dto'
+import {RequestErrorDto} from '../dtos/requestError.dto'
 import {JsonWebTokenError, TokenExpiredError} from 'jsonwebtoken'
 
 class ErrorHandling {

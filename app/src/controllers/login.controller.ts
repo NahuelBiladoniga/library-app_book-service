@@ -1,8 +1,8 @@
 import {NextFunction, Request, Response} from 'express'
 
 import db from '../database/setup'
-import {RequestErrorDto} from '../middlewares/requestError.dto'
-import {LoginServices} from "../services/LoginServices";
+import {RequestErrorDto} from '../dtos/requestError.dto'
+import LoginService from "../services/login.service";
 
 class LoginController {
     public async login(req: Request, res: Response, next: NextFunction) {
@@ -14,7 +14,7 @@ class LoginController {
             }
 
             let roles = user.roles
-            let token = LoginServices.generateAuthToken(user)
+            let token = LoginService.generateAuthToken(user)
 
             res.header('auth-token', token).json({email, roles})
         } catch (err) {

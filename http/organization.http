@@ -1,4 +1,7 @@
+### Login
+
 POST {{base_url}}:{{port}}/login
+// @no-log
 Content-Type: application/json
 
 {
@@ -6,15 +9,10 @@ Content-Type: application/json
   "password": "dolor_sit_amet"
 }
 
-> {%
-client.global.set('auth-token', response.headers.valueOf('auth-token'));
-
-client.test('Request executed successfully', function() {
-  client.assert(response.status === 200, 'Response status is not 200');
-});
-%}
+> {% client.global.set('auth-token', response.headers.valueOf('auth-token')); %}
 
 ### Send Invite
+
 POST {{base_url}}:{{port}}/organizations/test-organization
 Authorization: Bearer {{auth_token}}
 Content-Type: application/json
