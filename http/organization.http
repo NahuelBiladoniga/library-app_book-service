@@ -4,8 +4,8 @@ POST {{base_url}}:{{port}}/organizations
 Content-Type: application/json
 
 {
-  "name": "Test",
-  "email": "lorem@ipsumm.cms",
-  "password": "dolor_sit_amet",
-  "organizationName": "test-organizationn"
+  "name": "Santiago Toscanini",
+  "email": "st232566@fi365.ort.edu.uy",
+  "password": "Some strong password.",
+  "organizationName": "Aulas"
 }
