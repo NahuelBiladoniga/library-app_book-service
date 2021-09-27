@@ -7,13 +7,10 @@ import {isDevEnvironment} from "./utils/environment";
 async function main() {
     const app = new App()
     if (isDevEnvironment()) {
-        db.sequelize.sync().then(async () => {
-            await seedDbWithUsers()
-            await app.listen()
-        })
-    } else {
-        await app.listen()
+        await db.sequelize.sync()
+        await seedDbWithUsers()
     }
+    await app.listen()
 }
 
 async function seedDbWithUsers() {

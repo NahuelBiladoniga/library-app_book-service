@@ -1,0 +1,11 @@
+### Register Organization
+// @no-log
+POST {{base_url}}:{{port}}/register
+Content-Type: application/json
+
+{
+  "name": "Santiago Toscanini",
+  "email": "st232566@fi365.ort.edu.",
+  "password": "ladebw",
+  "organizationName": "Aulas"
+}

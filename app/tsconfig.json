@@ -4,9 +4,10 @@
     "module": "commonjs",
     "outDir": "./build/src",
     "rootDir": "./src",
-    "allowJs": true,
-    "strict": true,
+    "allowJs": false,
+    "strict": false,
     "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
