@@ -15,23 +15,3 @@ client.test('Request executed successfully', function() {
   client.assert(response.status === 200, 'Response status is not 200');
 });
 %}
-
-### Register
-# @no-log
-POST {{base_url}}:{{port}}/register
-Content-Type: application/json
-
-{
-  "name": "Test",
-  "email": "lorem@ipsumm.cms",
-  "password": "dolor_sit_amet",
-  "organization":"test-organizationn"
-}
-
-> {%
-client.global.set('auth-token', response.headers.valueOf('auth-token'));
-
-client.test('Request executed successfully', function() {
-  client.assert(response.status === 200, 'Response status is not 200');
-});
-%}

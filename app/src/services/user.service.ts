@@ -1,9 +1,6 @@
-import {AdminDto} from "../dtos/admin.dto";
 import db from "../database/setup";
 import {RequestErrorDto} from "../dtos/requestError.dto";
 import LoginService from "./login.service";
-import {RegisterResponseDto} from "../dtos/registerResponse.dto";
-import OrganizationService from "./organization.service";
 
 export class UserService {
     private static adminRole = "admin,"
@@ -15,12 +12,9 @@ export class UserService {
         }
     }
 
-    public async createAdmin(adminDto: AdminDto): Promise<RegisterResponseDto> {
-        const {name, email, password, organizationName} = adminDto.attributes
-
+    public async createAdmin(name: string, email: string, password: string, organizationName: string,): Promise<string> {
         await UserService.checkIfUserExistsByEmail(email)
 
-        const apiToken = await OrganizationService.registerOrganization(organizationName)
         const admin = await db.User.create({
             name: name,
             email: email,
@@ -29,11 +23,7 @@ export class UserService {
             roles: UserService.adminRole,
         })
 
-        return new RegisterResponseDto({
-            roles: admin.roles,
-            authToken: LoginService.generateAuthToken(admin),
-            apiToken: apiToken
-        })
+        return LoginService.generateAuthToken(admin)
     }
 }
 

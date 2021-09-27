@@ -1,9 +1,9 @@
 import {Router} from 'express'
-import {organizationController} from "../controllers/organization.controller"
+import OrganizationController from "../controllers/organization.controller"
 import Authorization from '../middlewares/authorization.middleware'
 
 const router: Router = Router()
 
-router.post('/', Authorization.validateToken, organizationController.inviteToOrganization)
+router.post('/', Authorization.validateAdminToken, OrganizationController.inviteToOrganization)
 
 export default router

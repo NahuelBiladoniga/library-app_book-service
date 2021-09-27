@@ -7,11 +7,8 @@ export class OrganizationService {
     static JWT_SECRET_KEY: string = getJWTSecretKey()
     static INVITE_CODE_EXPIRATION_TIME_IN_SECONDS = 60 * 60 * 24 // 1 day
 
-    private static generateApiToken(organization: string) {
-        return sign(
-            {organization: organization},
-            OrganizationService.JWT_SECRET_KEY
-        )
+    private static generateOrganizationAPIToken(organizationName: string) {
+        return sign({organization: organizationName}, OrganizationService.JWT_SECRET_KEY)
     }
 
     private static async isOrganizationRegistered(organizationName: string) {
@@ -38,10 +35,10 @@ export class OrganizationService {
             )
         }
 
-        const apiToken = OrganizationService.generateApiToken(organizationName)
-        await db.Organization.create({name: organizationName, apiToken: apiToken})
+        const APIToken = OrganizationService.generateOrganizationAPIToken(organizationName)
+        await db.Organization.create({name: organizationName, APIToken})
 
-        return apiToken
+        return APIToken
     }
 }
 

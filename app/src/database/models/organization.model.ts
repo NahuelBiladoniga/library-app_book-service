@@ -1,19 +1,14 @@
 import {Model} from 'sequelize'
-import {compare} from 'bcryptjs'
 
 interface OrganizationAttributes {
     name: string
-    apiToken: string
+    APIToken: string
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
     class Organization extends Model<OrganizationAttributes> implements OrganizationAttributes {
         name!: string
-        apiToken!: string
-
-        async validApiToken(apiToken: string): Promise<boolean> {
-            return await compare(apiToken, this.apiToken)
-        }
+        APIToken!: string
     }
 
     Organization.init({
@@ -21,7 +16,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
             type: DataTypes.STRING,
             primaryKey: true
         },
-        apiToken: {
+        APIToken: {
             type: DataTypes.STRING,
             allowNull: false
         }

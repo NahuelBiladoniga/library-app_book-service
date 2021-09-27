@@ -6,7 +6,11 @@ const jwt = require('jsonwebtoken')
 class AuthorizationMiddleware {
     static JWT_SECRET_KEY: string = getJWTSecretKey()
 
-    async validateToken(req: Request, res: Response, next: NextFunction) {
+    private static validateAdminRol(roles: String): Boolean {
+        return roles.toLowerCase().includes('admin')
+    }
+
+    async validateAdminToken(req: Request, res: Response, next: NextFunction) {
         const authHeader: string | undefined = req.header('auth-token')
         if (authHeader == undefined) {
             return res.status(401).json({'message': 'Missing authentication.'})
@@ -16,15 +20,11 @@ class AuthorizationMiddleware {
 
         const decoded = await jwt.verify(token, AuthorizationMiddleware.JWT_SECRET_KEY)
 
-        if (this.validateAdminRol(decoded['roles'])) {
+        if (AuthorizationMiddleware.validateAdminRol(decoded['roles'])) {
             next()
         } else {
             return res.status(403).json({'message': 'Missing authorization.'})
         }
-    }
-
-    private validateAdminRol(roles: String): Boolean {
-        return roles.toLowerCase().includes('admin')
     }
 }
 

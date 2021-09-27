@@ -1,29 +1,11 @@
-### Login
-
-POST {{base_url}}:{{port}}/login
-// @no-log
+### Register
+# @no-log
+POST {{base_url}}:{{port}}/organizations
 Content-Type: application/json
 
 {
-  "email": "lorem@ipsumm.cm",
-  "password": "dolor_sit_amet"
+  "name": "Test",
+  "email": "lorem@ipsumm.cms",
+  "password": "dolor_sit_amet",
+  "organizationName": "test-organizationn"
 }
-
-> {% client.global.set('auth-token', response.headers.valueOf('auth-token')); %}
-
-### Send Invite
-
-POST {{base_url}}:{{port}}/organizations/test-organization
-Authorization: Bearer {{auth_token}}
-Content-Type: application/json
-
-{
-  "email": "lorem@ipsum.com",
-  "roles": "ADMIN"
-}
-
-> {%
-client.test('Request executed successfully', function() {
-  client.assert(response.status === 200, 'Response status is not 200');
-});
-%}

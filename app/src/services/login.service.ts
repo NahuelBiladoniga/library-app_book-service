@@ -5,7 +5,7 @@ export class LoginService {
     static JWT_EXPIRATION_TIME = 60 * 60 * 24 // 1 day
     static JWT_SECRET_KEY: string = getJWTSecretKey()
 
-    public generateAuthToken(user) {
+    public generateAuthToken(user): string {
         const {email, roles} = user
         return sign(
             {email, roles},
