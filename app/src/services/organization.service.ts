@@ -2,16 +2,24 @@ import {getJWTSecretKey} from "../utils/environment";
 import {sign} from "jsonwebtoken";
 import db from "../database/setup";
 import {RequestErrorDto} from "../dtos/requestError.dto";
+import {createUUID} from "../utils/uuid";
 
 export class OrganizationService {
     static JWT_SECRET_KEY: string = getJWTSecretKey()
     static INVITE_CODE_EXPIRATION_TIME_IN_SECONDS = 60 * 60 * 24 // 1 day
 
-    private static generateOrganizationAPIToken(organizationName: string) {
-        return sign({organization: organizationName}, OrganizationService.JWT_SECRET_KEY)
+    public static async isAPITokenValid(organizationName: string, APIToken: string): Promise<boolean> {
+        return await this.getAPIToken(organizationName) === APIToken
     }
 
+    public static async getAPIToken(organizationName: string): Promise<string> {
+        const organization = await db.Organization.findByPk(organizationName)
+        return organization.APIToken
+    }
+
+
     private static async isOrganizationRegistered(organizationName: string) {
+        // TODO(santiagotoscanini): This could be cached in an in-memory DB.
         const organization = await db.Organization.findByPk(organizationName)
         return organization != null
     }
@@ -35,7 +43,7 @@ export class OrganizationService {
             )
         }
 
-        const APIToken = OrganizationService.generateOrganizationAPIToken(organizationName)
+        const APIToken = createUUID()
         await db.Organization.create({name: organizationName, APIToken})
 
         return APIToken

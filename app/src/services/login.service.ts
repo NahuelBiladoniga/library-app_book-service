@@ -6,9 +6,9 @@ export class LoginService {
     static JWT_SECRET_KEY: string = getJWTSecretKey()
 
     public generateAuthToken(user): string {
-        const {email, roles} = user
+        const {email, roles, organizationName} = user
         return sign(
-            {email, roles},
+            {email, roles, organizationName},
             LoginService.JWT_SECRET_KEY,
             {expiresIn: LoginService.JWT_EXPIRATION_TIME}
         )

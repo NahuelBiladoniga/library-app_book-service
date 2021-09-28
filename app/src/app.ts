@@ -4,9 +4,9 @@ import path from 'path'
 import fs from 'fs'
 
 import LoginRoutes from './routes/login.routes'
+import UserRoutes from './routes/user.routes'
 import OrganizationRoutes from './routes/organization.routes'
-import InvitationRoutes from './routes/invitations.routes'
-import ErrorHandler from './middlewares/errorHandler.middleware'
+import ErrorHandlerMiddleware from './middlewares/errorHandler.middleware'
 import {getPort, isProdScope} from "./utils/environment";
 
 export class App {
@@ -18,7 +18,7 @@ export class App {
         this.middlewares()
         this.routes()
         // Used before routes to handle exceptions.
-        this.app.use(ErrorHandler.handle)
+        this.app.use(ErrorHandlerMiddleware.handle)
     }
 
     settings() {
@@ -46,12 +46,13 @@ export class App {
     }
 
     routes() {
+        this.app.use('/sign-up', UserRoutes)
         this.app.use('/login', LoginRoutes)
         this.app.use('/organizations', OrganizationRoutes)
-        this.app.use('/invitations', InvitationRoutes)
     }
 
     async listen() {
         await this.app.listen(this.app.get('port'))
+        console.log('Ready to serve requests on port', this.app.get('port'))
     }
 }

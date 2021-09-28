@@ -9,3 +9,15 @@ Content-Type: application/json
   "password": "Some strong password.",
   "organizationName": "Aulas"
 }
+
+### Invitations
+# @no-log
+POST {{base_url}}:{{port}}/organizations/Aulas/invitations
+Content-Type: application/json
+auth-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN0MjMyNTY2QGZpMzY1Lm9ydC5lZHUudXkiLCJyb2xlcyI6ImFkbWluLCIsIm9yZ2FuaXphdGlvbk5hbWUiOiJBdWxhcyIsImlhdCI6MTYzMjc4OTE0NSwiZXhwIjoxNjMyODc1NTQ1fQ.Oa__JbpYevcK5hZTSWj3tgtJ_vgvZrtU9m0RMwBFQaY
+api-token: Bearer 66362e5a-d20d-4956-94d2-f9595e8baa7c
+
+{
+  "email": "some.email@fi365.ort.edu.uy7",
+  "roles": "normalUser"
+}

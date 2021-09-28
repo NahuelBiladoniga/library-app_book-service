@@ -2,8 +2,8 @@ import {NextFunction, Request, Response} from 'express'
 import {RequestErrorDto} from '../dtos/requestError.dto'
 import {JsonWebTokenError, TokenExpiredError} from 'jsonwebtoken'
 
-class ErrorHandling {
-    async handle(err: Error, req: Request, res: Response, _: NextFunction) {
+export default class ErrorHandlerMiddleware {
+    static handle(err: Error, req: Request, res: Response, _: NextFunction) {
         let message: string
         let status: number
 
@@ -26,5 +26,3 @@ class ErrorHandling {
         return res.status(status).json({'message': message})
     }
 }
-
-export default new ErrorHandling()
