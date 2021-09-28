@@ -12,7 +12,7 @@ export const users = [
         name: 'Sofia Tejerina',
         email: 'lorem@ipsum.com',
         password: 'dolor_sit_amet',
-        organizationName: 'Eva',
+        organizationName: 'Aulas',
         roles: getRole('admin'),
     }
 ]

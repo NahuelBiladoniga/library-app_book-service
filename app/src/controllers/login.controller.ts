@@ -1,22 +1,20 @@
 import {NextFunction, Request, Response} from 'express'
-
-import db from '../database/setup'
-import {RequestErrorDto} from '../dtos/requestError.dto'
 import LoginService from "../services/login.service";
+import UserService from "../services/user.service";
+import {OrganizationService} from "../services/organization.service";
 
 class LoginController {
     public async login(req: Request, res: Response, next: NextFunction) {
         try {
-            const {email, password} = req.body
-            const user = await db.User.findByPk(email)
-            if (!(user && await user.validPassword(password))) {
-                throw new RequestErrorDto('Bad credentials', 400)
-            }
+            const {email, password, organizationName} = req.body
+
+            const user = await UserService.GetUser(email, password, organizationName)
 
             let roles = user.roles
-            let token = LoginService.generateAuthToken(user)
+            let authToken = LoginService.generateAuthToken(user)
+            let APIToken = await OrganizationService.getAPIToken(organizationName)
 
-            res.header('auth-token', token).json({email, roles})
+            res.header('auth-token', authToken).header('api-token', APIToken).json({email, roles})
         } catch (err) {
             next(err)
         }

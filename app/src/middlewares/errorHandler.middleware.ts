@@ -7,6 +7,8 @@ export default class ErrorHandlerMiddleware {
         let message: string
         let status: number
 
+        console.error(err)
+
         switch (true) {
             case err instanceof RequestErrorDto:
                 status = (err as RequestErrorDto).status

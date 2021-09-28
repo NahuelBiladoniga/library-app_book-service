@@ -1,7 +1,7 @@
 import {getJWTSecretKey} from "../utils/environment";
 import {sign} from "jsonwebtoken";
-import db from "../database/setup";
 import {RequestErrorDto} from "../dtos/requestError.dto";
+import {Organization} from "../database/models/organization.model";
 import {createUUID} from "../utils/uuid";
 
 export class OrganizationService {
@@ -13,14 +13,13 @@ export class OrganizationService {
     }
 
     public static async getAPIToken(organizationName: string): Promise<string> {
-        const organization = await db.Organization.findByPk(organizationName)
+        // TODO(santiagotoscanini): This could be cached in an in-memory DB.
+        const organization = await Organization.findByPk(organizationName)
         return organization.APIToken
     }
 
-
     private static async isOrganizationRegistered(organizationName: string) {
-        // TODO(santiagotoscanini): This could be cached in an in-memory DB.
-        const organization = await db.Organization.findByPk(organizationName)
+        const organization = await Organization.findByPk(organizationName)
         return organization != null
     }
 
@@ -38,13 +37,13 @@ export class OrganizationService {
     public async registerOrganization(organizationName: string) {
         if (await OrganizationService.isOrganizationRegistered(organizationName)) {
             throw new RequestErrorDto(
-                `An organization named: "${organizationName} is already registered`,
+                `An organization named: '${organizationName}' is already registered`,
                 400,
             )
         }
 
         const APIToken = createUUID()
-        await db.Organization.create({name: organizationName, APIToken})
+        await Organization.create({name: organizationName, APIToken})
 
         return APIToken
     }

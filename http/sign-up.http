@@ -2,7 +2,7 @@
 // @no-log
 POST {{base_url}}:{{port}}/sign-up
 Content-Type: application/json
-invitation-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNvbWUuZW1haWxAZmkzNjUub3J0LmVkdS51eTciLCJyb2xlcyI6Im5vcm1hbFVzZXIiLCJvcmdhbml6YXRpb25OYW1lIjoiQXVsYXMiLCJpYXQiOjE2MzI3OTYwNDcsImV4cCI6MTYzMjg4MjQ0N30.j7e_m13HUcBHbMBzuBU3TXK67ZaONOj3S8uyxBisiOU
+invitation-token: {{invite-token}}
 
 {
   "name": "Santiago Toscanini",

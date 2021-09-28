@@ -4,14 +4,12 @@ POST {{base_url}}:{{port}}/login
 Content-Type: application/json
 
 {
-  "email": "lorem@ipsum.com",
-  "password": "dolor_sit_amet"
+  "email": "some.email@fi365.ort.edu.uy7",
+  "password": "ladebw",
+  "organizationName": "Aulas85"
 }
 
 > {%
-client.global.set('auth-token', response.headers.valueOf('auth-token'));
-
-client.test('Request executed successfully', function() {
-  client.assert(response.status === 200, 'Response status is not 200');
-});
+  client.global.set('auth-token', response.headers.valueOf('auth-token'));
+  client.global.set('api-token', response.headers.valueOf('api-token'))
 %}

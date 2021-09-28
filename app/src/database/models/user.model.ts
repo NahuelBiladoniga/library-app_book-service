@@ -1,61 +1,47 @@
-import {CreateOptions, Model} from 'sequelize'
-import {compare, hash} from 'bcryptjs'
+import {DataTypes, Model} from 'sequelize'
+import {compare, hashSync} from 'bcryptjs'
+import sequelize from '../setup'
+import {Organization} from "./organization.model";
 
-interface UserAttributes {
-    name: string
-    email: string
-    password: string
-    organizationName: string
-    roles: string
-}
+export class User extends Model {
+    name!: string
+    email!: string
+    password!: string
+    organizationName!: string
+    roles!: string
 
-module.exports = (sequelize: any, DataTypes: any) => {
-    class User extends Model<UserAttributes> implements UserAttributes {
-        name!: string
-        email!: string
-        password!: string
-        organizationName!: string
-        roles!: string
-
-        async validPassword(password: string): Promise<boolean> {
-            return await compare(password, this.password)
-        }
+    async validPassword(password: string): Promise<boolean> {
+        return await compare(password, this.password)
     }
-
-    User.init({
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        email: {
-            type: DataTypes.STRING,
-            primaryKey: true
-        },
-        password: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        organizationName: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-        roles: {
-            type: DataTypes.STRING
-        }
-    }, {
-        sequelize,
-        modelName: 'User'
-    })
-
-    User.beforeCreate(async (user: User, options: CreateOptions<UserAttributes>) => {
-        return await hash(user.password, 10)
-            .then(hash => {
-                user.password = hash
-            })
-            .catch(err => {
-                throw new Error(err)
-            })
-    })
-
-    return User
 }
+
+User.init({
+    email: {
+        type: DataTypes.STRING,
+        primaryKey: true,
+    },
+    organizationName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        primaryKey: true,
+        references: {
+            model: Organization,
+            key: 'name'
+        }
+    },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        set(value) {
+            this.setDataValue('password', hashSync(<string>value, 10))
+        },
+    },
+    roles: DataTypes.STRING
+}, {
+    sequelize,
+    modelName: 'User'
+})

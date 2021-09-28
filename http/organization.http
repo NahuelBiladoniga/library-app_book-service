@@ -5,19 +5,28 @@ Content-Type: application/json
 
 {
   "name": "Santiago Toscanini",
-  "email": "st232566@fi365.ort.edu.uy",
+  "email": "st232566@fi365.ort.edu",
   "password": "Some strong password.",
-  "organizationName": "Aulas"
+  "organizationName": "Aulas4"
 }
+
+> {%
+  client.global.set('auth-token', response.headers.valueOf('auth-token'));
+  client.global.set('api-token', response.headers.valueOf('api-token'))
+%}
 
 ### Invitations
 # @no-log
-POST {{base_url}}:{{port}}/organizations/Aulas/invitations
+POST {{base_url}}:{{port}}/organizations/Aulas4/invitations
 Content-Type: application/json
-auth-token: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN0MjMyNTY2QGZpMzY1Lm9ydC5lZHUudXkiLCJyb2xlcyI6ImFkbWluLCIsIm9yZ2FuaXphdGlvbk5hbWUiOiJBdWxhcyIsImlhdCI6MTYzMjc4OTE0NSwiZXhwIjoxNjMyODc1NTQ1fQ.Oa__JbpYevcK5hZTSWj3tgtJ_vgvZrtU9m0RMwBFQaY
-api-token: Bearer 66362e5a-d20d-4956-94d2-f9595e8baa7c
+auth-token: Bearer {{auth-token}}
+api-token: Bearer {{api-token}}
 
 {
-  "email": "some.email@fi365.ort.edu.uy7",
+  "email": "some.email@fi365.ort.edu.uy3",
   "roles": "normalUser"
 }
+
+> {%
+  client.global.set('invite-token', response.body['inviteCode']);
+%}
