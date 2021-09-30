@@ -13,5 +13,11 @@ router.post(
     TokenMiddleware.validateAPIToken,
     OrganizationController.inviteToOrganization
 )
+router.get('/:organizationName/new-api-token',
+    TokenMiddleware.validateOrganizationWithToken,
+    TokenMiddleware.validateAdminToken,
+    TokenMiddleware.validateAPIToken,
+    OrganizationController.regenerateAPIToken
+)
 
 export default router

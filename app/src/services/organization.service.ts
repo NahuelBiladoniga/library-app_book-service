@@ -47,6 +47,24 @@ export class OrganizationService {
 
         return APIToken
     }
+
+    public async regenerateOrganizationAPIToken(organizationName: string): Promise<string> {
+        const organization = await Organization.findByPk(organizationName)
+        if (organization == null) {
+            throw new RequestErrorDto(
+                `An organization named: '${organizationName}' does not exist!`,
+                400,
+            )
+        }
+
+        const newAPIToken = createUUID()
+        organization.APIToken = newAPIToken
+
+        // TODO(santiagotoscanini): Here we also should update the cache.
+        await organization.save()
+
+        return newAPIToken
+    }
 }
 
 export default new OrganizationService()

@@ -31,6 +31,17 @@ class OrganizationController {
             next(err)
         }
     }
+
+    public async regenerateAPIToken(req: Request, res: Response, next: NextFunction) {
+        try {
+            const organizationName = req.params.organizationName
+            const newAPIToken: string = await OrganizationService.regenerateOrganizationAPIToken(organizationName)
+
+            res.status(204).header('api-token', newAPIToken).send()
+        } catch (err) {
+            next(err)
+        }
+    }
 }
 
 export default new OrganizationController()

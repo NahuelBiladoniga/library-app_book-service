@@ -7,13 +7,21 @@ Content-Type: application/json
   "name": "Santiago Toscanini",
   "email": "st232566@fi365.ort.edu",
   "password": "Some strong password.",
-  "organizationName": "Aulas4"
+  "organizationName": "Aulas7"
 }
 
 > {%
   client.global.set('auth-token', response.headers.valueOf('auth-token'));
   client.global.set('api-token', response.headers.valueOf('api-token'))
 %}
+
+### Re-generate API Token
+# @no-log
+GET {{base_url}}:{{port}}/organizations/Aulas7/new-api-token
+auth-token: Bearer {{auth-token}}
+api-token: Bearer {{api-token}}
+
+> {% client.global.set('api-token', response.headers.valueOf('api-token')) %}
 
 ### Invitations
 # @no-log
