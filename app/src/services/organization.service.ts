@@ -42,10 +42,9 @@ export class OrganizationService {
             )
         }
 
-        const APIToken = createUUID()
-        await Organization.create({name: organizationName, APIToken})
+        const organization = await Organization.create({name: organizationName})
 
-        return APIToken
+        return organization.APIToken
     }
 
     public async regenerateOrganizationAPIToken(organizationName: string): Promise<string> {
@@ -57,13 +56,8 @@ export class OrganizationService {
             )
         }
 
-        const newAPIToken = createUUID()
-        organization.APIToken = newAPIToken
-
-        // TODO(santiagotoscanini): Here we also should update the cache.
-        await organization.save()
-
-        return newAPIToken
+        await organization.update({APIToken: createUUID()})
+        return organization.APIToken
     }
 }
 

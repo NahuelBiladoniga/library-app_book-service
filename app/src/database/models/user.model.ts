@@ -19,11 +19,15 @@ User.init({
     email: {
         type: DataTypes.STRING,
         primaryKey: true,
+        allowNull: false,
+        validate: {
+            isEmail: true,
+        }
     },
     organizationName: {
         type: DataTypes.STRING,
-        allowNull: false,
         primaryKey: true,
+        allowNull: false,
         references: {
             model: Organization,
             key: 'name'
@@ -37,10 +41,10 @@ User.init({
         type: DataTypes.STRING,
         allowNull: false,
         set(value) {
-            this.setDataValue('password', hashSync(<string>value, 10))
+            this.setDataValue<string>('password', hashSync(<string>value, 10))
         },
     },
-    roles: DataTypes.STRING
+    roles: DataTypes.STRING,
 }, {
     sequelize,
     modelName: 'User'

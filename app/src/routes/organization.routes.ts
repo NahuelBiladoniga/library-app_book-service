@@ -13,7 +13,8 @@ router.post(
     TokenMiddleware.validateAPIToken,
     OrganizationController.inviteToOrganization
 )
-router.get('/:organizationName/new-api-token',
+router.get(
+    '/:organizationName/new-api-token',
     TokenMiddleware.validateOrganizationWithToken,
     TokenMiddleware.validateAdminToken,
     TokenMiddleware.validateAPIToken,

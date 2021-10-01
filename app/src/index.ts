@@ -8,18 +8,21 @@ import {User} from './database/models/user.model'
 
 import {isDevEnvironment} from "./utils/environment";
 import {Organization} from "./database/models/organization.model";
+import {books} from "./database/seeders/books";
+import {Book} from "./database/models/book.model";
 
 async function main() {
     const app = new App()
     if (isDevEnvironment()) {
         await sequelize.sync()
-        await seedDbWithOrganizations()
-        await seedDbWithUsers()
+        await seedDBWithOrganizations()
+        await seedDBWithUsers()
+        await seedDBWithBooks()
     }
     await app.listen()
 }
 
-async function seedDbWithOrganizations() {
+async function seedDBWithOrganizations() {
     organizations.map(async org => {
         const organizationFound = await Organization.findByPk(org.name)
         if (!organizationFound) {
@@ -28,11 +31,20 @@ async function seedDbWithOrganizations() {
     })
 }
 
-async function seedDbWithUsers() {
+async function seedDBWithUsers() {
     users.map(async user => {
-        const user_found = await User.findOne({where: {email: user.email, organizationName: user.organizationName}})
-        if (!user_found) {
+        const userFound = await User.findOne({where: {email: user.email, organizationName: user.organizationName}})
+        if (!userFound) {
             await User.create(user)
+        }
+    })
+}
+
+async function seedDBWithBooks() {
+    books.map(async book => {
+        const bookFound = await Book.findOne({where: {ISBN: book.ISBN, organizationName: book.organizationName}})
+        if (!bookFound) {
+            await Book.create(book)
         }
     })
 }

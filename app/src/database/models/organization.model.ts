@@ -1,20 +1,25 @@
 import {DataTypes, Model} from 'sequelize'
+
 import sequelize from '../setup'
 
 
 export class Organization extends Model {
     name!: string
-    APIToken!: string
+    APIToken: string
 }
 
 Organization.init({
     name: {
         type: DataTypes.STRING,
-        primaryKey: true
+        primaryKey: true,
     },
     APIToken: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        allowNull: false,
+        validate: {
+            isUUID: 4,
+        },
     }
 }, {
     sequelize,

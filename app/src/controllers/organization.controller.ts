@@ -7,6 +7,7 @@ class OrganizationController {
         try {
             const {name, email, password, organizationName} = req.body
 
+            // TODO(santiagotoscanini): This should be saved in a in-memory db.
             let APIToken = await OrganizationService.registerOrganization(organizationName)
             let authToken = await UserService.createUser(name, email, password, organizationName, 'admin')
 
@@ -35,6 +36,8 @@ class OrganizationController {
     public async regenerateAPIToken(req: Request, res: Response, next: NextFunction) {
         try {
             const organizationName = req.params.organizationName
+
+            // TODO(santiagotoscanini): Here we also should update the cache.
             const newAPIToken: string = await OrganizationService.regenerateOrganizationAPIToken(organizationName)
 
             res.status(204).header('api-token', newAPIToken).send()

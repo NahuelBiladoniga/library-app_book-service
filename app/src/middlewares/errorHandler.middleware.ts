@@ -1,6 +1,7 @@
 import {NextFunction, Request, Response} from 'express'
 import {RequestErrorDto} from '../dtos/requestError.dto'
 import {JsonWebTokenError, TokenExpiredError} from 'jsonwebtoken'
+import {ValidationError} from "sequelize";
 
 export default class ErrorHandlerMiddleware {
     static handle(err: Error, req: Request, res: Response, _: NextFunction) {
@@ -19,7 +20,12 @@ export default class ErrorHandlerMiddleware {
                 message = err.message || 'Error with Auth Token'
                 break
             case err instanceof TokenExpiredError:
-                // TODO(santiagotoscanini): Implement this.
+                status = 401
+                message = 'Token expired'
+                break
+            case err instanceof ValidationError:
+                status = 400
+                message = (err as ValidationError).errors[0].message
                 break
             default:
                 status = 500

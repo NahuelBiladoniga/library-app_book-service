@@ -4,9 +4,9 @@ POST {{base_url}}:{{port}}/login
 Content-Type: application/json
 
 {
-  "email": "some.email@fi365.ort.edu.uy7",
-  "password": "ladebw",
-  "organizationName": "Aulas85"
+  "email": "santi@library.com",
+  "password": "secret-pass",
+  "organizationName": "Aulas"
 }
 
 > {%

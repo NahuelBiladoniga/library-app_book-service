@@ -6,6 +6,7 @@ import fs from 'fs'
 import LoginRoutes from './routes/login.routes'
 import UserRoutes from './routes/user.routes'
 import OrganizationRoutes from './routes/organization.routes'
+import BookRoutes from './routes/book.routes'
 import ErrorHandlerMiddleware from './middlewares/errorHandler.middleware'
 import {getPort, isProdScope} from "./utils/environment";
 
@@ -49,6 +50,7 @@ export class App {
         this.app.use('/sign-up', UserRoutes)
         this.app.use('/login', LoginRoutes)
         this.app.use('/organizations', OrganizationRoutes)
+        this.app.use('/books', BookRoutes)
     }
 
     async listen() {

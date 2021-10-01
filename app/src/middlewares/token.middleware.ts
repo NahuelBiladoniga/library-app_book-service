@@ -10,6 +10,21 @@ const jwt = require('jsonwebtoken')
 export default class TokenMiddleware {
     public static JWT_SECRET_KEY: string = getJWTSecretKey()
 
+    static async loadOrganizationNameFromAuthToken(req: Request, res: Response, next: NextFunction) {
+        try {
+            const header = req.header('auth-token')
+            const authToken = header.replace(/^Bearer\s/, '')
+            const authTokenDecoded = await jwt.verify(<string>authToken, TokenMiddleware.JWT_SECRET_KEY)
+            const organizationName = authTokenDecoded['organizationName']
+
+            req.body = {...req.body, organizationName}
+
+            next()
+        } catch (err) {
+            ErrorHandlerMiddleware.handle(err, req, res, next)
+        }
+    }
+
     static async validateOrganizationWithToken(req: Request, res: Response, next: NextFunction) {
         try {
             const header: string | undefined = req.header('auth-token')
@@ -24,6 +39,25 @@ export default class TokenMiddleware {
                 next()
             } else {
                 res.status(400).json({'message': 'Invalid token'})
+            }
+        } catch (err) {
+            ErrorHandlerMiddleware.handle(err, req, res, next)
+        }
+    }
+
+    static async validateAdminOrUserToken(req: Request, res: Response, next: NextFunction) {
+        try {
+            const header: string | undefined = req.header('auth-token')
+            if (header == undefined) {
+                return res.status(401).json({'message': 'Missing Auth Token.'})
+            }
+            const token = header.replace(/^Bearer\s/, '')
+            const decoded = await jwt.verify(<string>token, TokenMiddleware.JWT_SECRET_KEY)
+
+            if (TokenMiddleware.validateAdminRol(decoded['roles']) || TokenMiddleware.validateUserRole(decoded['roles'])) {
+                next()
+            } else {
+                return res.status(403).json({'message': 'Missing authorization.'})
             }
         } catch (err) {
             ErrorHandlerMiddleware.handle(err, req, res, next)
@@ -90,7 +124,11 @@ export default class TokenMiddleware {
         }
     }
 
-    private static validateAdminRol(roles: string): Boolean {
+    private static validateAdminRol(roles: string): boolean {
         return roles.toLowerCase().includes(getRole('admin'))
+    }
+
+    private static validateUserRole(roles: string): boolean {
+        return roles.toLowerCase().includes(getRole('normalUser'))
     }
 }

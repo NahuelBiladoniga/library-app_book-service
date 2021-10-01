@@ -13,6 +13,6 @@ export const users = [
         email: 'lorem@ipsum.com',
         password: 'dolor_sit_amet',
         organizationName: 'Aulas',
-        roles: getRole('admin'),
+        roles: getRole('normalUser'),
     }
 ]
