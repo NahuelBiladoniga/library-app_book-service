@@ -12,3 +12,6 @@
 
 # Env
 .env
+
+# Coverage
+app/.nyc_output
