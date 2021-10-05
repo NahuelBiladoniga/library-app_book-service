@@ -29,7 +29,7 @@ export default class TokenMiddleware {
         try {
             const header: string | undefined = req.header('auth-token')
             if (header == undefined) {
-                res.status(401).json({'message': 'Missing Auth Token'})
+                return res.status(401).json({'message': 'Missing Auth Token'})
             }
             const authToken = header.replace(/^Bearer\s/, '')
             const authTokenDecoded = await jwt.verify(<string>authToken, TokenMiddleware.JWT_SECRET_KEY)

@@ -1,0 +1,22 @@
+name: NodeJS Continious Integration
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test_pull_request:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: npm i
+        working-directory: ./app
+      - run: sudo npm test
+        working-directory: ./app
+      - run: npm run clean
+        working-directory: ./app
+      - run: npm run build
+        working-directory: ./app

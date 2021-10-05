@@ -13,5 +13,5 @@
 # Env
 .env
 
-# Coverage
+# Coverage folder
 app/.nyc_output
