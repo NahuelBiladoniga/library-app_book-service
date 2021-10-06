@@ -13,12 +13,12 @@ export class User extends Model {
     async validPassword(password: string): Promise<boolean> {
         return await compare(password, this.password)
     }
+
 }
 
 User.init({
     email: {
         type: DataTypes.STRING,
-        primaryKey: true,
         allowNull: false,
         validate: {
             isEmail: true,
@@ -26,7 +26,6 @@ User.init({
     },
     organizationName: {
         type: DataTypes.STRING,
-        primaryKey: true,
         allowNull: false,
         references: {
             model: Organization,

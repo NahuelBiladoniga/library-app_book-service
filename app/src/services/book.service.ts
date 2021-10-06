@@ -1,6 +1,7 @@
 import {Book} from "../database/models/book.model";
 import {RequestErrorDto} from "../dtos/requestError.dto";
 import {Op} from "sequelize";
+import ReservationService from "./reservation.service";
 
 export class BookService {
     public static async createBook(
@@ -10,12 +11,12 @@ export class BookService {
         year: number,
         organizationName: string,
         imagePath: string,
-        numberOfExamples: number,
+        totalExamples: number,
     ) {
         if (await this.isBookRegistered(ISBN, organizationName)) {
             throw new RequestErrorDto(`Book with ISBN: '${ISBN}' is already registered.`)
         }
-        await Book.create({ISBN, title, author, year, organizationName, imagePath, numberOfExamples})
+        await Book.create({ISBN, title, author, year, organizationName, imagePath, totalExamples})
     }
 
     public static async deleteBook(ISBN: string, organizationName: string) {
@@ -32,20 +33,20 @@ export class BookService {
         title?: string,
         author?: string,
         year?: number,
-        numberOfExamples?: number,
+        totalExamples?: number,
         imagePath?: string,
     ) {
-        if (!await this.isBookRegistered(ISBN, organizationName)) {
+        const book = await Book.findOne({where: {ISBN, organizationName}})
+        if (book == null) {
             throw new RequestErrorDto(`Book with ISBN: '${ISBN}' isn't registered.`)
         }
 
-        if (!isActive) {
-            // TODO(santiagotoscanini): In this case, we should check for active reservations.
+        if ((!isActive || totalExamples < book.totalExamples) && await ReservationService.areActiveReservationsFromThisDay(new Date(), book)) {
+            throw new RequestErrorDto("Cannot reduce the number of examples or deactivate the book while there are active reservations");
         }
-        const dataToUpdate = {isActive, title, author, year, numberOfExamples, imagePath}
+        const dataToUpdate = {isActive, title, author, year, totalExamples, imagePath}
         Object.keys(dataToUpdate).forEach(k => dataToUpdate[k] == null && delete dataToUpdate[k]);
 
-        const book = await Book.findOne({where: {ISBN, organizationName}})
         return await book.update(dataToUpdate)
     }
 

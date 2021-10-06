@@ -4,9 +4,9 @@ import {BookService} from "../services/book.service";
 export default class BookController {
     static async createBook(req: Request, res: Response, next: NextFunction) {
         try {
-            const {ISBN, title, author, year, organizationName, imagePath, numberOfExamples} = req.body
+            const {ISBN, title, author, year, organizationName, imagePath, totalExamples} = req.body
 
-            await BookService.createBook(ISBN, title, author, year, organizationName, imagePath, numberOfExamples)
+            await BookService.createBook(ISBN, title, author, year, organizationName, imagePath, totalExamples)
 
             res.status(201).json({ISBN, title, author, year})
         } catch (err) {
@@ -16,10 +16,10 @@ export default class BookController {
 
     static async updateBook(req: Request, res: Response, next: NextFunction) {
         try {
-            const {title, author, year, numberOfExamples, imagePath, isActive, organizationName} = req.body
+            const {title, author, year, totalExamples, imagePath, isActive, organizationName} = req.body
             const ISBN = req.params.bookISBN
 
-            const book = await BookService.updateBook(ISBN, organizationName, isActive, title, author, year, numberOfExamples, imagePath)
+            const book = await BookService.updateBook(ISBN, organizationName, isActive, title, author, year, totalExamples, imagePath)
             res.status(200).json(book)
         } catch (err) {
             next(err)

@@ -10,14 +10,15 @@ const jwt = require('jsonwebtoken')
 export default class TokenMiddleware {
     public static JWT_SECRET_KEY: string = getJWTSecretKey()
 
-    static async loadOrganizationNameFromAuthToken(req: Request, res: Response, next: NextFunction) {
+    static async loadDataFromAuthToken(req: Request, res: Response, next: NextFunction) {
         try {
             const header = req.header('auth-token')
             const authToken = header.replace(/^Bearer\s/, '')
             const authTokenDecoded = await jwt.verify(<string>authToken, TokenMiddleware.JWT_SECRET_KEY)
             const organizationName = authTokenDecoded['organizationName']
+            const email = authTokenDecoded['email']
 
-            req.body = {...req.body, organizationName}
+            req.body = {...req.body, organizationName, email}
 
             next()
         } catch (err) {

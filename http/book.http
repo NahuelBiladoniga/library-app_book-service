@@ -11,7 +11,7 @@ api-token: Bearer {{api-token}}
   "title": "Continuous Integration",
   "year": 2010,
   "imagePath": "https://images-na.ssl-images-amazon.com/images/I/51O9tzpYaUL.jpg",
-  "numberOfExamples": 1
+  "totalExamples": 1
 }
 
 ### Delete
@@ -36,3 +36,17 @@ Content-Type: application/json
 GET {{base_url}}:{{port}}/books?searchBy=Gene&limit=3&offset=0
 auth-token: Bearer {{auth-token}}
 api-token: Bearer {{api-token}}
+
+# 978-1942788003
+# 9780140862539
+### Reservation
+# @no-log
+POST {{base_url}}:{{port}}/books/9780140862539/reservations
+auth-token: Bearer {{auth-token}}
+api-token: Bearer {{api-token}}
+Content-Type: application/json
+
+// YYYY-mm-DD
+{
+  "reservationDate": "2021-10-03"
+}
