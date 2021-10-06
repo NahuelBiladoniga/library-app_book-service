@@ -1,0 +1,2 @@
+### Get status of the service
+GET {{base_url}}:{{port}}/status
