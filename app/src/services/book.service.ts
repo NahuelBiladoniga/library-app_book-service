@@ -2,7 +2,6 @@ import {Book} from "../database/models/book.model";
 import {RequestErrorDto} from "../dtos/requestError.dto";
 import {Op} from "sequelize";
 import ReservationService from "./reservation.service";
-import {Reservation} from "../database/models/reservation.model";
 import sequelize from "../database/setup"
 
 export class BookService {
@@ -83,23 +82,22 @@ export class BookService {
 
     static async getMostWantedBooks(organizationName: string, countOfBooks: number) {
         return await sequelize.query(`
-            select "amount"::INTEGER,
-            "ISBN",
-            "isActive",
-            "title",
-            "author",
-            "year",
-            "totalExamples",
-            "imagePath"
-        from (
-            SELECT "bookId", count(1) as amount
-        FROM "Reservations"
-        where "organizationName" = '${organizationName}'
-        group by "bookId"
-        order by count(1) desc
-        limit ${countOfBooks}
-    ) as most_wanted
-        inner join "Books" as "books" on "id" = most_wanted."bookId";
+                    select "amount"::INTEGER, "ISBN",
+                           "isActive",
+                           "title",
+                           "author",
+                           "year",
+                           "totalExamples",
+                           "imagePath"
+                    from (
+                             SELECT "bookId", count(1) as amount
+                             FROM "Reservations"
+                             where "organizationName" = '${organizationName}'
+                             group by "bookId"
+                             order by count(1) desc
+                                 limit ${countOfBooks}
+                         ) as most_wanted
+                             inner join "Books" as "books" on "id" = most_wanted."bookId";
             `, {
                 model: Book,
                 mapToModel: true

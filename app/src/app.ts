@@ -28,9 +28,8 @@ export class App {
     }
 
     logMiddleware() {
-        // TODO(santiagotoscanini): Instead of this, maybe we can route always to STDOUT.
+        // TODO(santiagotoscanini): We need to have an agent that send the logs to a different server.
         if (isProdScope()) {
-
             const morganLogStream = fs.createWriteStream(path.join(__dirname, '/../morgan.log'), {flags: 'a'})
             return morgan('common', {
                 skip: (req: Request, res: Response) => {

@@ -33,10 +33,7 @@ function tenDigitsISBN(isbn: string): boolean {
 export function isValidISBN(isbn: string): boolean {
     isbn = isbn.replace(/[^0-9X]/gi, '');
 
-    if (isbn.length != 10 && isbn.length != 13) {
-        return false;
-    }
-
     if (isbn.length == 10) return tenDigitsISBN(isbn)
-    if (isbn.length == 13) return thirteenDigitsISBN(isbn)
+    else if (isbn.length == 13) return thirteenDigitsISBN(isbn)
+    else return false
 }

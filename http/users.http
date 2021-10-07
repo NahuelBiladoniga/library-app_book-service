@@ -1,4 +1,4 @@
-### Register Organization
+### Accept Invitation
 // @no-log
 POST {{base_url}}:{{port}}/users
 Content-Type: application/json
