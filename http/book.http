@@ -11,7 +11,7 @@ api-token: Bearer {{api-token}}
   "title": "Continuous Integration",
   "year": 2010,
   "imagePath": "https://images-na.ssl-images-amazon.com/images/I/51O9tzpYaUL.jpg",
-  "totalExamples": 1
+  "totalExamples": 100
 }
 
 ### Delete
@@ -22,13 +22,13 @@ api-token: Bearer {{api-token}}
 
 ### Update
 # @no-log
-PUT {{base_url}}:{{port}}/books/9780140862539
+PUT {{base_url}}:{{port}}/books/978-1942788003
 auth-token: Bearer {{auth-token}}
 api-token: Bearer {{api-token}}
 Content-Type: application/json
 
 {
-  "isActive": true
+  "totalExamples": 100
 }
 
 ### Catalog
@@ -48,12 +48,19 @@ Content-Type: application/json
 
 // YYYY-mm-DD
 {
-  "reservationDate": "2021-08-28"
+  "reservationDate": "2021-09-19"
 }
 
 ### Reservations
 # @no-log
 GET {{base_url}}:{{port}}/books/9780140862539/reservations?dateFrom=2021-10-01&dateTo=2021-10-06&limit=4&offset=0
+auth-token: Bearer {{auth-token}}
+api-token: Bearer {{api-token}}
+Content-Type: application/json
+
+### The 5 most wanted books
+# @no-log
+GET {{base_url}}:{{port}}/books/most-wanted
 auth-token: Bearer {{auth-token}}
 api-token: Bearer {{api-token}}
 Content-Type: application/json

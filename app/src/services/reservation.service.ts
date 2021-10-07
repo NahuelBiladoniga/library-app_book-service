@@ -48,6 +48,20 @@ export default class ReservationService {
         return amount > 0
     }
 
+    static async getUserActiveReservations(email: string, organizationName: string) {
+        let threeDaysBefore = new Date()
+        threeDaysBefore.setDate((new Date()).getDate() - 3)
+        return await Reservation.findAll({
+            where: {
+                userEmail: email,
+                organizationName: organizationName,
+                startDate: {
+                    [Op.gte]: threeDaysBefore
+                }
+            }
+        })
+    }
+
     static async getReservationsByBook(
         bookId: number,
         startDate: Date,

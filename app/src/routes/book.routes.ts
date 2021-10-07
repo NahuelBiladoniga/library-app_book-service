@@ -48,5 +48,12 @@ router.get(
     TokenMiddleware.loadDataFromAuthToken,
     ReservationController.getReservationsOfBook,
 )
+router.get(
+    '/most-wanted',
+    TokenMiddleware.validateAPIToken,
+    TokenMiddleware.validateAdminOrUserToken,
+    TokenMiddleware.loadDataFromAuthToken,
+    BookController.getMostWantedBooks
+)
 
 export default router

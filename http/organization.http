@@ -7,7 +7,7 @@ Content-Type: application/json
   "name": "Santiago Toscanini",
   "email": "st232566@fi365.ort.edu",
   "password": "Some strong password.",
-  "organizationName": "Aulas7"
+  "organizationName": "Santi"
 }
 
 > {%

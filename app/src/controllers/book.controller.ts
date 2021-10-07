@@ -55,4 +55,14 @@ export default class BookController {
             next(err)
         }
     }
+
+    static async getMostWantedBooks(req: Request, res: Response, next: NextFunction) {
+        try {
+            const organizationName = req.body.organizationName
+            const books = await BookService.getMostWantedBooks(organizationName, 5)
+            res.json(books).status(200)
+        } catch (err) {
+            next(err)
+        }
+    }
 }
