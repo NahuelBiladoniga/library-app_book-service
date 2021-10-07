@@ -4,7 +4,7 @@ import sequelize from "../setup";
 import {Organization} from "./organization.model";
 
 export class Book extends Model {
-    id: string
+    id: number
     ISBN!: string
     title!: string
     author!: string

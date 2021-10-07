@@ -48,5 +48,12 @@ Content-Type: application/json
 
 // YYYY-mm-DD
 {
-  "reservationDate": "2021-10-03"
+  "reservationDate": "2021-08-28"
 }
+
+### Reservations
+# @no-log
+GET {{base_url}}:{{port}}/books/9780140862539/reservations?dateFrom=2021-10-01&dateTo=2021-10-06&limit=4&offset=0
+auth-token: Bearer {{auth-token}}
+api-token: Bearer {{api-token}}
+Content-Type: application/json

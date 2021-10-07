@@ -41,5 +41,12 @@ router.post(
     TokenMiddleware.loadDataFromAuthToken,
     ReservationController.createReservation,
 )
+router.get(
+    '/:bookISBN/reservations',
+    TokenMiddleware.validateAPIToken,
+    TokenMiddleware.validateAdminOrUserToken,
+    TokenMiddleware.loadDataFromAuthToken,
+    ReservationController.getReservationsOfBook,
+)
 
 export default router

@@ -66,6 +66,14 @@ export class BookService {
         )
     }
 
+    static async getBookIdByISBN(ISBN: string, organizationName: string): Promise<number> {
+        const book = await Book.findOne({where: {ISBN, organizationName}})
+        if (book == undefined) {
+            throw new RequestErrorDto("Book doesn't exist", 404)
+        }
+        return book.id
+    }
+
     static async isBookRegistered(ISBN: string, organizationName: string): Promise<boolean> {
         const book = await Book.findOne({where: {ISBN, organizationName}})
         return book != null

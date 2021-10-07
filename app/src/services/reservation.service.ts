@@ -10,7 +10,7 @@ export default class ReservationService {
         if (book == undefined) {
             throw new RequestErrorDto("Book not found", 404)
         }
-        if(!book.isActive){
+        if (!book.isActive) {
             throw new RequestErrorDto("Book not active", 404)
         }
         if (!await ReservationService.enoughBooks(reservationDate, book)) {
@@ -31,6 +31,44 @@ export default class ReservationService {
         await Reservation.create(dataToSave)
     }
 
+    static async areActiveReservationsFromThisDay(date: Date, book) {
+        let threeDaysBefore = new Date(date.getTime())
+        threeDaysBefore.setDate(date.getDate() - 3)
+        const amount: number = await Reservation.count({
+            where: {
+                startDate: {
+                    [Op.gte]: threeDaysBefore
+                },
+                bookId: book.id,
+            }
+        })
+
+        console.info(`Amount of books for ${book.ISBN}: ${amount}`)
+        return amount > 0
+    }
+
+    static async getReservationsByBook(
+        bookId: number,
+        startDate: Date,
+        endDate: Date,
+        limit: number,
+        offset: number,
+    ): Promise<Reservation[]> {
+        let threeDaysBefore = new Date(startDate.getTime())
+        threeDaysBefore.setDate(startDate.getDate() - 3)
+        let threeDaysAfter = new Date(endDate.getTime())
+        threeDaysAfter.setDate(endDate.getDate() + 3)
+        return await Reservation.findAll({
+            where: {
+                bookId,
+                startDate: {
+                    [Op.gte]: threeDaysBefore,
+                    [Op.lte]: threeDaysAfter
+                },
+            }, limit, offset
+        })
+    }
+
     private static async enoughBooks(reservationDate: Date, book: Book): Promise<boolean> {
         let threeDaysBefore = new Date(reservationDate.getTime())
         threeDaysBefore.setDate(reservationDate.getDate() - 3)
@@ -48,21 +86,5 @@ export default class ReservationService {
 
         console.info(`Amount of books for ${book.ISBN}: ${amount}`)
         return (book.totalExamples - amount) > 0
-    }
-
-    static async areActiveReservationsFromThisDay(date: Date, book){
-        let threeDaysBefore = new Date(date.getTime())
-        threeDaysBefore.setDate(date.getDate() - 3)
-        const amount: number = await Reservation.count({
-            where: {
-                startDate: {
-                    [Op.gte]: threeDaysBefore
-                },
-                bookId: book.id,
-            }
-        })
-
-        console.info(`Amount of books for ${book.ISBN}: ${amount}`)
-        return amount > 0
     }
 }
