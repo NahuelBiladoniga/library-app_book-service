@@ -1,8 +1,9 @@
-import {CreateOptions, DataTypes, Model} from "sequelize";
+import {DataTypes, Model} from "sequelize";
 import sequelize from "../setup";
 
 export class Reservation extends Model {
     userEmail!: string
+    organizationName!: string
     bookId!: string
     startDate!: Date
     endDate!: Date
@@ -10,6 +11,10 @@ export class Reservation extends Model {
 
 Reservation.init({
         userEmail: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        organizationName: {
             type: DataTypes.STRING,
             allowNull: false,
         },

@@ -48,7 +48,7 @@ export class App {
     }
 
     routes() {
-        this.app.use('/sign-up', UserRoutes)
+        this.app.use('/users', UserRoutes)
         this.app.use('/login', LoginRoutes)
         this.app.use('/organizations', OrganizationRoutes)
         this.app.use('/books', BookRoutes)

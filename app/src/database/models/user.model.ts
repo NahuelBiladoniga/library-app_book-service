@@ -4,6 +4,7 @@ import sequelize from '../setup'
 import {Organization} from "./organization.model";
 
 export class User extends Model {
+    id!: number
     name!: string
     email!: string
     password!: string

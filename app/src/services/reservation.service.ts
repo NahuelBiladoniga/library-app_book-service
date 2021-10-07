@@ -25,7 +25,8 @@ export default class ReservationService {
             userEmail: email,
             bookId: book.id,
             startDate: reservationDate,
-            endDate
+            endDate,
+            organizationName,
         }
         console.info("New reservation to be saved: ", dataToSave)
         await Reservation.create(dataToSave)
@@ -66,6 +67,20 @@ export default class ReservationService {
                     [Op.lte]: threeDaysAfter
                 },
             }, limit, offset
+        })
+    }
+
+    static async getUserActiveReservations(email: string, organizationName: string) {
+        let threeDaysBefore = new Date()
+        threeDaysBefore.setDate((new Date()).getDate() - 3)
+        return await Reservation.findAll({
+            where: {
+                userEmail: email,
+                organizationName: organizationName,
+                startDate: {
+                    [Op.gte]: threeDaysBefore
+                }
+            }
         })
     }
 

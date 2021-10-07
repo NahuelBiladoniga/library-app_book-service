@@ -25,7 +25,7 @@ api-token: Bearer {{api-token}}
 
 ### Invitations
 # @no-log
-POST {{base_url}}:{{port}}/organizations/Aulas7/invitations
+POST {{base_url}}:{{port}}/organizations/Aulas/invitations
 Content-Type: application/json
 auth-token: Bearer {{auth-token}}
 api-token: Bearer {{api-token}}

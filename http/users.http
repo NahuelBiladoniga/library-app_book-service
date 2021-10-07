@@ -1,6 +1,6 @@
 ### Register Organization
 // @no-log
-POST {{base_url}}:{{port}}/sign-up
+POST {{base_url}}:{{port}}/users
 Content-Type: application/json
 invitation-token: {{invite-token}}
 
@@ -8,3 +8,8 @@ invitation-token: {{invite-token}}
   "name": "Santiago Toscanini",
   "password": "ladebw"
 }
+
+### Get user active reservations
+# @no-log
+GET {{base_url}}:{{port}}/users/reservations
+auth-token: Bearer {{auth-token}}
