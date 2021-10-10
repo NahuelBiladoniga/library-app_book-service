@@ -20,6 +20,7 @@ Reservation.init({
         },
         bookId: {
             type: DataTypes.INTEGER,
+            allowNull: false,
         },
         startDate: DataTypes.DATEONLY,
         endDate: DataTypes.DATEONLY,

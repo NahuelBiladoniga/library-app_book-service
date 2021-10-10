@@ -1,0 +1,13 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+    "Name": "santiagotoscanini/library-app:0.0.2",
+    "Update": "true"
+  },
+  "Ports": [
+    {
+      "HostPort": 80,
+      "ContainerPort": 3000
+    }
+  ]
+}

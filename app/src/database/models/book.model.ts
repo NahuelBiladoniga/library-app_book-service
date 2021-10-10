@@ -3,6 +3,7 @@ import {isValidISBN} from "../../utils/validators";
 import sequelize from "../setup";
 import {Organization} from "./organization.model";
 
+
 export class Book extends Model {
     id: number
     ISBN!: string

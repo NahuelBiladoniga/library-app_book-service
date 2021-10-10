@@ -14,7 +14,6 @@ export class User extends Model {
     async validPassword(password: string): Promise<boolean> {
         return await compare(password, this.password)
     }
-
 }
 
 User.init({

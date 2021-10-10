@@ -18,6 +18,9 @@ export function getDBConfig() {
         database: process.env.DB_SCHEMA,
         dialect: process.env.DB_DIALECT,
         logging: false,
+        define: {
+            timestamps: false,
+        },
     }
 }
 
