@@ -41,9 +41,9 @@ export class BookService {
         if (book == null) {
             throw new RequestErrorDto(`Book with ISBN: '${ISBN}' isn't registered.`)
         }
-
-        if ((!isActive || totalExamples < book.totalExamples) && await ReservationService.areActiveReservationsFromThisDay(new Date(), book)) {
-            throw new RequestErrorDto("Cannot reduce the number of examples or deactivate the book while there are active reservations");
+        const bookIsActive = isActive == undefined? book.isActive: isActive;
+        if ((!bookIsActive || totalExamples < book.totalExamples) && await ReservationService.areActiveReservationsFromThisDay(new Date(), book)) {
+            throw new RequestErrorDto("Cannot reduce the number of examples or deactivate the book while there are active reservations", 400);
         }
         const dataToUpdate = {isActive, title, author, year, totalExamples, imagePath}
         Object.keys(dataToUpdate).forEach(k => dataToUpdate[k] == null && delete dataToUpdate[k]);
