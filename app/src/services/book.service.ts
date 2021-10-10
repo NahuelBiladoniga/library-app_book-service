@@ -3,8 +3,12 @@ import {RequestErrorDto} from "../dtos/requestError.dto";
 import {Op} from "sequelize";
 import ReservationService from "./reservation.service";
 import sequelize from "../database/setup"
+import MemoryDB from "../cache/implementation.cache";
 
 export class BookService {
+    static MOST_WANTED_BOOKS_PREFIX = 'most_wanted_books_'
+    static MOST_WANTED_BOOKS_TTL = 60 // In minutes
+
     public static async createBook(
         ISBN: string,
         title: string,
@@ -41,7 +45,7 @@ export class BookService {
         if (book == null) {
             throw new RequestErrorDto(`Book with ISBN: '${ISBN}' isn't registered.`)
         }
-        const bookIsActive = isActive == undefined? book.isActive: isActive;
+        const bookIsActive = isActive == undefined ? book.isActive : isActive;
         if ((!bookIsActive || totalExamples < book.totalExamples) && await ReservationService.areActiveReservationsFromThisDay(new Date(), book)) {
             throw new RequestErrorDto("Cannot reduce the number of examples or deactivate the book while there are active reservations", 400);
         }
@@ -81,7 +85,15 @@ export class BookService {
     }
 
     static async getMostWantedBooks(organizationName: string, countOfBooks: number) {
-        return await sequelize.query(`
+        const cachedBooks = await MemoryDB.getValue(this.getMostWantedBookKey(organizationName))
+
+        if (cachedBooks) {
+            const ttl = await MemoryDB.getTTL(this.getMostWantedBookKey(organizationName))
+            if (ttl > 0) {
+                return JSON.parse(cachedBooks)
+            }
+        }
+        const books = await sequelize.query(`
                     select "amount"::INTEGER, "ISBN",
                            "isActive",
                            "title",
@@ -105,5 +117,12 @@ export class BookService {
                 mapToModel: true
             }
         )
+        const valuesToCache = JSON.stringify(books)
+        await MemoryDB.setValueWithTTL(this.getMostWantedBookKey(organizationName), valuesToCache, this.MOST_WANTED_BOOKS_TTL)
+        return books
+    }
+
+    private static getMostWantedBookKey(organizationName: string) {
+        return BookService.MOST_WANTED_BOOKS_PREFIX + organizationName
     }
 }

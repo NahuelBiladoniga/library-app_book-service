@@ -14,13 +14,13 @@ Environment variables that need to be set:
 To generate a new migration skeleton run:
 
 ```shell
-npx sequelize-cli migration:generate --name migration-skeleton --migrations-path ./app/src/database/migrations 
+npx sequelize-cli migration:generate --name migration-skeleton --migrations-path ./src/database/migrations 
 ```
 
 To run migrations run:
 
 ```shell
-npx sequelize-cli db:migrate --url postgres://$USER:$PASSWORD@$URL:$PORT/$DB --migrations-path ./app/src/database/migrations
+npx sequelize-cli db:migrate --url postgres://$USER:$PASSWORD@$URL:$PORT/$DB --migrations-path ./src/database/migrations
 ```
 
 ## Seeds
@@ -28,13 +28,13 @@ npx sequelize-cli db:migrate --url postgres://$USER:$PASSWORD@$URL:$PORT/$DB --m
 To generate new seed run:
 
 ```shell
-npx sequelize-cli seed:generate --name demo-user --seeders-path ./app/src/database/seeders
+npx sequelize-cli seed:generate --name demo-user --seeders-path ./src/database/seeders
 ```
 
 To run seeds run:
 
 ```shell
-npx sequelize-cli db:seed:all --seeders-path ./app/src/database/seeders --url postgres://$USER:$PASSWORD@$URL:$PORT/$DB
+npx sequelize-cli db:seed:all --seeders-path ./src/database/seeders --url postgres://$USER:$PASSWORD@$URL:$PORT/$DB
 ```
 
 ## Docker

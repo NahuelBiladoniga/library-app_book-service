@@ -3,24 +3,43 @@ import {sign} from "jsonwebtoken";
 import {RequestErrorDto} from "../dtos/requestError.dto";
 import {Organization} from "../database/models/organization.model";
 import {createUUID} from "../utils/uuid";
+import MemoryDB from "../cache/implementation.cache";
 
 export class OrganizationService {
     static JWT_SECRET_KEY: string = getJWTSecretKey()
     static INVITE_CODE_EXPIRATION_TIME_IN_SECONDS = 60 * 60 * 24 // 1 day
+    static ORGANIZATION_TOKEN_PREFIX = 'org_token_'
 
     public static async isAPITokenValid(organizationName: string, APIToken: string): Promise<boolean> {
         return await this.getAPIToken(organizationName) === APIToken
     }
 
     public static async getAPIToken(organizationName: string): Promise<string> {
-        // TODO(santiagotoscanini): This could be cached in an in-memory DB.
+        const tokenKey = this.orgTokenKey(organizationName);
+
+        const cachedToken = await MemoryDB.getValue(tokenKey)
+        if (cachedToken) {
+            return cachedToken
+        }
+
         const organization = await Organization.findByPk(organizationName)
-        return organization.APIToken
+        return await this.cacheToken(organization);
+    }
+
+    private static orgTokenKey(organizationName: string): string {
+        return OrganizationService.ORGANIZATION_TOKEN_PREFIX + organizationName
     }
 
     private static async isOrganizationRegistered(organizationName: string) {
         const organization = await Organization.findByPk(organizationName)
         return organization != null
+    }
+
+    private static async cacheToken(organization: Organization) {
+        const tokenKey = OrganizationService.orgTokenKey(organization.name)
+        const token = organization.APIToken
+        await MemoryDB.setValue(tokenKey, token)
+        return token;
     }
 
     public async generateInviteCode(email: string, roles: string, organizationName: string) {
@@ -57,7 +76,8 @@ export class OrganizationService {
         }
 
         await organization.update({APIToken: createUUID()})
-        return organization.APIToken
+
+        return await OrganizationService.cacheToken(organization);
     }
 }
 

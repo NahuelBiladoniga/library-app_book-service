@@ -2,10 +2,6 @@ export function isProdScope(): boolean {
     return process.env.NODE_ENV == 'production'
 }
 
-export function isDevEnvironment(): boolean {
-    return process.env.NODE_ENV == 'development'
-}
-
 export function getPort() {
     return process.env.PORT || 80
 }
@@ -22,6 +18,10 @@ export function getDBConfig() {
             timestamps: false,
         },
     }
+}
+
+export function getMemoryDBURL(): string {
+    return `redis://${process.env.CACHE_HOST}:${process.env.CACHE_PORT}`
 }
 
 export function getJWTSecretKey(): string {

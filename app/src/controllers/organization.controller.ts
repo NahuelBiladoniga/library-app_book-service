@@ -37,7 +37,7 @@ class OrganizationController {
         try {
             const organizationName = req.params.organizationName
 
-            // TODO(santiagotoscanini): Here we also should update the cache.
+
             const newAPIToken: string = await OrganizationService.regenerateOrganizationAPIToken(organizationName)
 
             res.status(204).header('api-token', newAPIToken).send()
