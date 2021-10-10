@@ -6,9 +6,9 @@ export default class BookController {
         try {
             const {ISBN, title, author, year, organizationName, imagePath, totalExamples} = req.body
 
-            await BookService.createBook(ISBN, title, author, year, organizationName, imagePath, totalExamples)
+            const book = await BookService.createBook(ISBN, title, author, year, organizationName, imagePath, totalExamples)
 
-            res.status(201).json({ISBN, title, author, year})
+            res.status(200).json(book)
         } catch (err) {
             next(err)
         }
@@ -50,7 +50,7 @@ export default class BookController {
                 parseInt(<string>limit),
                 parseInt(<string>offset),
             )
-            res.status(200).json(books)
+            res.status(200).json({books: books})
         } catch (err) {
             next(err)
         }
@@ -60,7 +60,7 @@ export default class BookController {
         try {
             const organizationName = req.body.organizationName
             const books = await BookService.getMostWantedBooks(organizationName, 5)
-            res.json(books).status(200)
+            res.json({books: books}).status(200)
         } catch (err) {
             next(err)
         }

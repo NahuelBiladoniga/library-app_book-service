@@ -21,7 +21,7 @@ export default class UserController {
         try {
             let {organizationName, email} = req.body
             const reservations = await ReservationService.getUserActiveReservations(email, organizationName);
-            res.status(200).json(reservations);
+            res.status(200).json({reserves: reservations});
         } catch (err) {
             next(err)
         }

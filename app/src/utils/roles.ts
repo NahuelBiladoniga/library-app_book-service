@@ -1,6 +1,6 @@
 const roles = {
     'admin': 'admin,',
-    'normalUser': 'normalUser,',
+    'normal': 'normal,',
 }
 
 export function getRole(roleKey: string): string {

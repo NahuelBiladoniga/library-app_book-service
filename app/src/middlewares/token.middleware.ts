@@ -54,7 +54,7 @@ export default class TokenMiddleware {
             }
             const token = header.replace(/^Bearer\s/, '')
             const decoded = await jwt.verify(<string>token, TokenMiddleware.JWT_SECRET_KEY)
-
+            
             if (TokenMiddleware.validateAdminRol(decoded['roles']) || TokenMiddleware.validateUserRole(decoded['roles'])) {
                 next()
             } else {
@@ -130,6 +130,6 @@ export default class TokenMiddleware {
     }
 
     private static validateUserRole(roles: string): boolean {
-        return roles.toLowerCase().includes(getRole('normalUser'))
+        return roles.toLowerCase().includes(getRole('normal'))
     }
 }

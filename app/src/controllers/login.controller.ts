@@ -11,10 +11,11 @@ class LoginController {
             const user = await UserService.GetUser(email, password, organizationName)
 
             let roles = user.roles
+            let name = user.name
             let authToken = LoginService.generateAuthToken(user)
             let APIToken = await OrganizationService.getAPIToken(organizationName)
 
-            res.header('auth-token', authToken).header('api-token', APIToken).json({email, roles})
+            res.header('auth-token', authToken).header('api-token', APIToken).json({email, roles, name})
         } catch (err) {
             next(err)
         }

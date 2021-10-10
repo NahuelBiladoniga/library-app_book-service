@@ -17,7 +17,7 @@ export class BookService {
         if (await this.isBookRegistered(ISBN, organizationName)) {
             throw new RequestErrorDto(`Book with ISBN: '${ISBN}' is already registered.`)
         }
-        await Book.create({ISBN, title, author, year, organizationName, imagePath, totalExamples})
+        return await Book.create({ISBN, title, author, year, organizationName, imagePath, totalExamples})
     }
 
     public static async deleteBook(ISBN: string, organizationName: string) {
@@ -88,7 +88,9 @@ export class BookService {
                            "author",
                            "year",
                            "totalExamples",
-                           "imagePath"
+                           "imagePath",
+                           "id",
+                           "organizationName"
                     from (
                              SELECT "bookId", count(1) as amount
                              FROM "Reservations"

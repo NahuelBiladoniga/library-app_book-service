@@ -32,7 +32,7 @@ api-token: Bearer {{api-token}}
 
 {
   "email": "some.email@fi365.ort.edu.uya",
-  "roles": "normalUser"
+  "roles": "normal"
 }
 
 > {%

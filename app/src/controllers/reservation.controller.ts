@@ -31,7 +31,7 @@ export default class ReservationController {
                 parseInt(<string>limit),
                 parseInt(<string>offset),
             )
-            res.json(reservations)
+            res.json({reserves: reservations})
         } catch (err) {
             next(err)
         }
