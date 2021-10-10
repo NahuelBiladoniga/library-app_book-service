@@ -7,6 +7,6 @@ export default class StatusService {
     }
 
     private static async getDatabaseStatus() {
-        await sequelize.authenticate();
+        await sequelize.query("select 1+1");
     }
 }
