@@ -10,9 +10,11 @@ import StatusRoutes from './routes/status.routes'
 import BookRoutes from './routes/book.routes'
 import ErrorHandlerMiddleware from './middlewares/errorHandler.middleware'
 import {getPort, isProdScope} from "./utils/environment";
+import { Server } from 'http'
 
 export class App {
     private app: Application
+    private subscribe: Server
 
     constructor() {
         this.app = express()
@@ -55,7 +57,12 @@ export class App {
     }
 
     async listen() {
-        await this.app.listen(this.app.get('port'))
+        this.subscribe = this.app.listen(this.app.get('port'))
         console.log('Ready to serve requests on port', this.app.get('port'))
-    }
+    }      
+    
+     close(done?) {
+        this.subscribe.close(done)
+        console.log('Bye')
+    }      
 }

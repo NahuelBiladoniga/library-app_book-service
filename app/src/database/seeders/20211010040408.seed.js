@@ -17,7 +17,7 @@ module.exports = {
                 email: 'lorem@ipsum.com',
                 password: hashSync('dolor_sit_amet', 10),
                 organizationName: 'Aulas',
-                roles: 'normalUser,'
+                roles: 'normal,'
             }
         ], {})
     },

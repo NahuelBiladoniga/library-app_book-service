@@ -2,6 +2,10 @@ export function isProdScope(): boolean {
     return process.env.NODE_ENV == 'production'
 }
 
+export function isIntegrationTestScope(){
+    return process.env.NODE_ENV == 'integration-test'
+}
+
 export function getPort() {
     return process.env.PORT || 80
 }
