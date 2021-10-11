@@ -1,6 +1,7 @@
 import {NextFunction, Request, Response} from 'express'
 import OrganizationService from "../services/organization.service"
 import UserService from "../services/user.service";
+import EmailService from "../email/implementation.email"
 
 class OrganizationController {
     public async createOrganization(req: Request, res: Response, next: NextFunction) {
@@ -26,7 +27,8 @@ class OrganizationController {
             const {email, roles} = req.body
             const inviteCode = await OrganizationService.generateInviteCode(email, roles, organizationName)
 
-            // TODO(santiagotoscanini): we also have to send this information via email.
+            await EmailService.sendEmail(email, organizationName, inviteCode, roles)
+
             res.status(200).json({email, roles, organizationName, inviteCode})
         } catch (err) {
             next(err)
