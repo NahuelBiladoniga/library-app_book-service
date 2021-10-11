@@ -23,7 +23,7 @@ export default class SendGridEmail extends EmailInterface {
     }
 
     getEmailContent(organizationName: string, inviteToken: string, emailTo: string, role: string): string {
-        const url = `unilinks://library.app/sign-up-${role}?organizationName=${organizationName}&email=${emailTo}&invite-token=${inviteToken}`
+        const url = `http://library.app/sign-up-${role}?organizationName=${organizationName}&email=${emailTo}&invite-token=${inviteToken}`
         return emailTemplate.replace('${LINK}', url).replace('${ORG_NAME}', organizationName)
     }
 
