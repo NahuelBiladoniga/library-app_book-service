@@ -25,7 +25,14 @@ Reservation.init({
         startDate: DataTypes.DATEONLY,
         endDate: DataTypes.DATEONLY,
     },
+
     {
+        indexes: [
+            {
+                unique: true,
+                fields: ['organizationName', 'bookId', 'startDate', 'endDate']
+            }
+        ],
         sequelize,
         modelName: 'Reservation'
     },

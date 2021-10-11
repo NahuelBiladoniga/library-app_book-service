@@ -14,7 +14,7 @@ Environment variables that need to be set:
 To generate a new migration skeleton run:
 
 ```shell
-npx sequelize-cli migration:generate --name migration-skeleton --migrations-path ./src/database/migrations 
+npx sequelize-cli migration:generate --name migration --migrations-path ./app/src/database/migrations 
 ```
 
 To run migrations run:
