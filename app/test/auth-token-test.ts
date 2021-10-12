@@ -6,24 +6,22 @@ import LoginService from "../src/services/login.service";
 import {User} from "../src/database/models/user.model";
 import {getRole} from "../src/utils/roles";
 import {Organization} from "../src/database/models/organization.model";
-import mocha from 'mocha';
 import sequelize from '../src/database/setup'
-import { createUUID } from '../src/utils/uuid';
+import {createUUID} from '../src/utils/uuid';
 
 chai.use(require('chai-http'));
-
 
 describe('New API Token ', async function () {
     const app = new App()
     const validToken = createUUID()
 
-    this.beforeAll(async function(){
+    this.beforeAll(async function () {
         app.listen()
         await sequelize.drop()
         await sequelize.sync()
     })
 
-    this.afterAll(function(done){
+    this.afterAll(function (done) {
         app.close(done)
     })
 
@@ -40,13 +38,13 @@ describe('New API Token ', async function () {
                 }
             )
         )
-        await Organization.create({name: 'Aulas', APIToken: validToken})  
+        await Organization.create({name: 'Aulas', APIToken: validToken})
     })
 
     it("Should generate a valid token", async function () {
         const res = await request('http://0.0.0.0')
             .get('/organizations/Aulas/new-api-token')
-            .set('auth-token', adminAuthToken)            
+            .set('auth-token', adminAuthToken)
             .set('api-token', validToken);
         expect(res).to.have.status(204);
         expect(res).to.have.header('api-token')
@@ -85,7 +83,7 @@ describe('New API Token ', async function () {
         expect(res).to.have.property('body');
     });
 
-    describe('User Api Token' ,function newFunction() {
+    describe('User Api Token', function newFunction() {
         let userAuthToken;
         before(async function () {
             userAuthToken = LoginService.generateAuthToken(
@@ -109,7 +107,7 @@ describe('New API Token ', async function () {
         });
     });
 
-    describe('Auth Token invalid',function a() {
+    describe('Auth Token invalid', function a() {
         let authTokenWithWrongOrganization;
         before(function () {
             authTokenWithWrongOrganization = LoginService.generateAuthToken(

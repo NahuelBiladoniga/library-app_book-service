@@ -2,6 +2,7 @@ import {Book} from "../database/models/book.model";
 import {Reservation} from "../database/models/reservation.model";
 import {Op} from "sequelize";
 import {RequestErrorDto} from "../dtos/requestError.dto";
+import Logger from "../logger/implementation.logger";
 
 export default class ReservationService {
     static async createReservation(reservationDate: Date, ISBN: string, organizationName: string, email: string) {
@@ -17,7 +18,7 @@ export default class ReservationService {
             throw new RequestErrorDto("Not enough books", 404)
         }
 
-        console.info("New reservation for book: ", book)
+        Logger.info(`New reservation for book: "${book.ISBN}"`);
         let endDate = new Date(reservationDate.getTime())
         endDate.setDate(endDate.getDate() + 3)
 
@@ -28,7 +29,7 @@ export default class ReservationService {
             endDate,
             organizationName,
         }
-        console.info("New reservation to be saved: ", dataToSave)
+        Logger.info(`New reservation to be saved: ${JSON.stringify(dataToSave)}`);
         await Reservation.create(dataToSave)
     }
 
@@ -44,7 +45,7 @@ export default class ReservationService {
             }
         })
 
-        console.info(`Amount of books for ${book.ISBN}: ${amount}`)
+        Logger.info(`Amount of books for "${book.ISBN}": ${amount}`);
         return amount > 0
     }
 
@@ -99,7 +100,7 @@ export default class ReservationService {
             }
         })
 
-        console.info(`Amount of books for ${book.ISBN}: ${amount}`)
+        Logger.info(`Amount of books for "${book.ISBN}": ${amount}`);
         return (book.totalExamples - amount) > 0
     }
 }

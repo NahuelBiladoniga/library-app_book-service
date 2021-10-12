@@ -15,7 +15,8 @@ services:
       NODE_ENV: development
       CACHE_HOST: redis
       CACHE_PORT: 6379
-      SENDGRID_API_KEY: '{{SENDGRID_API_KEY}}'
+      NEW_RELIC_LICENSE_KEY: "$NEW_RELIC_LICENSE_KEY"
+      SENDGRID_API_KEY: "$SENDGRID_API_KEY"
     depends_on:
       - postgres
       - redis

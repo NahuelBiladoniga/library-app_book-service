@@ -30,7 +30,7 @@ con cargas de 1200 requests por minuto
 
 **Environment variables that need to be set:**
 
-* `PORT` (Optional)
+* `PORT` (Optional, by default uses 80)
 * `CACHE_HOST`
 * `CACHE_PORT`
 * `SENDGRID_API_KEY`
@@ -42,6 +42,7 @@ con cargas de 1200 requests por minuto
 * `DB_DIALECT`
 * `JTW_SECRET_KEY`
 * `PORT`
+* `NEW_RELIC_LICENSE_KEY`
 
 ## Migrations
 

@@ -2,13 +2,14 @@ import {NextFunction, Request, Response} from 'express'
 import {RequestErrorDto} from '../dtos/requestError.dto'
 import {JsonWebTokenError, TokenExpiredError} from 'jsonwebtoken'
 import {ValidationError} from "sequelize";
+import Logger from "../logger/implementation.logger";
 
 export default class ErrorHandlerMiddleware {
     static handle(err: Error, req: Request, res: Response, _: NextFunction) {
         let message: string
         let status: number
 
-        console.error(err)
+        Logger.error('Error caught', err);
 
         switch (true) {
             case err instanceof RequestErrorDto:

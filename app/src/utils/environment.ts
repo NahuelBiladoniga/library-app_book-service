@@ -2,7 +2,7 @@ export function isProdScope(): boolean {
     return process.env.NODE_ENV == 'production'
 }
 
-export function isIntegrationTestScope(){
+export function isIntegrationTestScope() {
     return process.env.NODE_ENV == 'integration-test'
 }
 
@@ -34,4 +34,8 @@ export function getJWTSecretKey(): string {
         throw new Error('Secret need to be set!')
     }
     return JWTSecretKey
+}
+
+export function getNewRelicLicenseKey(): string {
+    return process.env.NEW_RELIC_LICENSE_KEY
 }

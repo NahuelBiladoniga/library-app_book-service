@@ -28,7 +28,7 @@ api-token: Bearer {{api-token}}
 Content-Type: application/json
 
 {
-  "totalExamples": 100
+  "totalExamples": 2
 }
 
 ### Catalog
@@ -51,7 +51,7 @@ Content-Type: application/json
 
 ### Reservations
 # @no-log
-GET {{base_url}}:{{port}}/books/9780140862539/reservations?dateFrom=2021-10-01&dateTo=2021-10-06&limit=4&offset=0
+GET {{base_url}}:{{port}}/books/9780140862539/reservations?dateFrom=2021-09-01&dateTo=2021-10-06&limit=4&offset=0
 auth-token: Bearer {{auth-token}}
 api-token: Bearer {{api-token}}
 
