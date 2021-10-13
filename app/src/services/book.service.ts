@@ -56,7 +56,6 @@ export class BookService {
     }
 
     static async getBooksFiltered(organizationName: string, searchBy: string, limit: number, offset: number) {
-        console.log(organizationName, searchBy, limit, offset)
         return await Book.findAll({
                 where: {
                     [Op.or]: [

@@ -9,10 +9,12 @@ import ErrorHandlerMiddleware from './middlewares/errorHandler.middleware'
 import {getPort} from "./utils/environment";
 import {Server} from 'http'
 import Logger from './logger/implementation.logger'
+import {RequestErrorDto} from "./dtos/requestError.dto";
 
 export class App {
     private app: Application
-    private subscribe: Server
+    private server: Server
+    private connections: Array<any> = []
 
     constructor() {
         this.app = express()
@@ -40,11 +42,47 @@ export class App {
     }
 
     async listen() {
-        this.subscribe = this.app.listen(this.app.get('port'))
+        this.server = this.app.listen(this.app.get('port'))
+        this.handleServerShutdown()
         Logger.info(`Ready to serve requests on port ${this.app.get('port')}`)
     }
 
     close(done?) {
-        this.subscribe.close(done)
+        this.server.close(done)
     }
+
+    private handleServerShutdown() {
+        process.on('SIGTERM', this.shutDown)
+        process.on('SIGINT', this.shutDown)
+
+        // Prints the number of open connections on console
+        setInterval(() => this.server.getConnections(
+            (err, connections) => Logger.info(`${connections} connections currently open`)
+        ), 3000)
+
+        this.server.on('connection', connection => {
+            this.connections.push(connection)
+            connection.on('close', () => this.connections = this.connections.filter(curr => curr !== connection))
+        })
+    }
+
+    private shutDown() {
+        Logger.info('Received kill signal, shutting down gracefully');
+        this.server.close(() => {
+            Logger.info('Closed out remaining connections');
+            process.exit(0);
+        });
+
+        setTimeout(() => {
+            Logger.error(
+                'Could not close connections in time, forcefully shutting down',
+                new RequestErrorDto("Error closing connections")
+            );
+            process.exit(1);
+        }, 10000);
+
+        this.connections.forEach(curr => curr.end());
+        setTimeout(() => this.connections.forEach(curr => curr.destroy()), 5000);
+    }
+
 }
