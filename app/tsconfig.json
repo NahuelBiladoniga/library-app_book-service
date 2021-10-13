@@ -2,9 +2,9 @@
   "compilerOptions": {
     "target": "es6",
     "module": "commonjs",
-    "outDir": "./build/src",
-    "rootDir": "./src",
-    "allowJs": false,
+    "outDir": "./build",
+    "rootDir": "./",
+    "allowJs": true,
     "strict": false,
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
@@ -13,7 +13,7 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": [
-    "./src/**/*"
+    "./src/*",
   ],
   "exclude": [
     "node_modules/*"

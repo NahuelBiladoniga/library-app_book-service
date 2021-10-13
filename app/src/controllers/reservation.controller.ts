@@ -1,6 +1,7 @@
 import {NextFunction, Request, Response} from "express";
 import ReservationService from "../services/reservation.service";
 import {BookService} from "../services/book.service";
+import Logger from "../logger/implementation.logger"
 
 export default class ReservationController {
     static async createReservation(req: Request, res: Response, next: NextFunction) {
@@ -24,6 +25,7 @@ export default class ReservationController {
             const {limit, offset, dateFrom, dateTo} = req.query
             const bookId = await BookService.getBookIdByISBN(ISBN, organizationName)
 
+            Logger.info("Starting to get reservations by book.")
             const reservations = await ReservationService.getReservationsByBook(
                 bookId,
                 new Date(<string>dateFrom),
@@ -31,6 +33,7 @@ export default class ReservationController {
                 parseInt(<string>limit),
                 parseInt(<string>offset),
             )
+            Logger.info("End getting reservations.")
             res.json({reserves: reservations})
         } catch (err) {
             next(err)

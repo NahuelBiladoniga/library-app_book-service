@@ -35,7 +35,3 @@ export function getJWTSecretKey(): string {
     }
     return JWTSecretKey
 }
-
-export function getNewRelicLicenseKey(): string {
-    return process.env.NEW_RELIC_LICENSE_KEY
-}

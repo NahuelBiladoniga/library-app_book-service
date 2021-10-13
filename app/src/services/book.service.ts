@@ -4,6 +4,7 @@ import {Op} from "sequelize";
 import ReservationService from "./reservation.service";
 import sequelize from "../database/setup"
 import MemoryDB from "../cache/implementation.cache";
+import Logger from "../logger/implementation.logger"
 
 export class BookService {
     static MOST_WANTED_BOOKS_PREFIX = 'most_wanted_books_'
@@ -88,10 +89,13 @@ export class BookService {
 
         if (cachedBooks) {
             const ttl = await MemoryDB.getTTL(this.getMostWantedBookKey(organizationName))
+            Logger.info(`Books from cache, TTL ${ttl}`)
             if (ttl > 0) {
+                Logger.info("Books from cache, valid TTL")
                 return JSON.parse(cachedBooks)
             }
         }
+        Logger.info("Querying books")
         const books = await sequelize.query(`
                     select "amount"::INTEGER, "ISBN",
                            "isActive",
@@ -117,6 +121,7 @@ export class BookService {
             }
         )
         const valuesToCache = JSON.stringify(books)
+        Logger.info("Saving books in cache")
         await MemoryDB.setValueWithTTL(this.getMostWantedBookKey(organizationName), valuesToCache, this.MOST_WANTED_BOOKS_TTL)
         return books
     }

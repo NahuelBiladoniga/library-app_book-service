@@ -15,3 +15,6 @@
 
 # Coverage folder
 app/.nyc_output
+
+# New Relic
+app/newrelic_agent.log
