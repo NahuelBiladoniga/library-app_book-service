@@ -1,12 +1,28 @@
-### Login
+### Login Admin
 # @no-log
 POST {{base_url}}:{{port}}/login
 Content-Type: application/json
 
 {
-  "email": "santi@library.com",
-  "password": "secret-pass",
-  "organizationName": "Aulas"
+  "email": "admin@ort.com",
+  "password": "Password1",
+  "organizationName": "ORT"
+}
+
+> {%
+  client.global.set('auth-token', response.headers.valueOf('auth-token'));
+  client.global.set('api-token', response.headers.valueOf('api-token'))
+%}
+
+### Login Student
+# @no-log
+POST {{base_url}}:{{port}}/login
+Content-Type: application/json
+
+{
+  "email": "alumno@ort.com",
+  "password": "Password1",
+  "organizationName": "ORT"
 }
 
 > {%
