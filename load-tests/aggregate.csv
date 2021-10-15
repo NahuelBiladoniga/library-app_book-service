@@ -1,0 +1,4 @@
+Label,# Samples,Average,Median,90% Line,95% Line,99% Line,Min,Max,Error %,Throughput,Received KB/sec,Sent KB/sec
+Most Wanted Books,11463,146,142,145,147,158,20,21047,0.105%,26.38897,6.38,12.59
+Get Reserves Books,11453,155,147,162,178,321,2,1567,0.087%,26.40449,6.45,14.43
+TOTAL,22916,151,145,154,164,238,2,21047,0.096%,52.75492,12.82,26.99

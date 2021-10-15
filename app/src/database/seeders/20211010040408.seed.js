@@ -6,17 +6,17 @@ module.exports = {
         const {hashSync} = require("bcryptjs");
         await queryInterface.bulkInsert('Users', [
             {
-                name: 'Santiago Toscanini',
-                email: 'santi@library.com',
-                password: hashSync('secret-pass', 10),
-                organizationName: 'Aulas',
+                name: 'Admin',
+                email: 'admin@ort.com',
+                password: hashSync('Password1', 10),
+                organizationName: 'ORT',
                 roles: 'admin,'
             },
             {
-                name: 'Sofia Tejerina',
-                email: 'lorem@ipsum.com',
-                password: hashSync('dolor_sit_amet', 10),
-                organizationName: 'Aulas',
+                name: 'Alumno',
+                email: 'alumno@ort.com',
+                password: hashSync('Password1', 10),
+                organizationName: 'ORT',
                 roles: 'normal,'
             }
         ], {})
@@ -29,8 +29,8 @@ module.exports = {
                 email:
                     {
                         [Op.or]: [
-                            'santi@library.com',
-                            'lorem@ipsum.com',
+                            'admin@ort.com',
+                            'alumno@ort.com',
                         ]
                     }
             })

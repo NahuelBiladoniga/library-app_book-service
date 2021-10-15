@@ -33,18 +33,18 @@ describe('New API Token ', async function () {
                     name: "test",
                     email: "test@test.com",
                     password: "pass",
-                    organizationName: "Aulas",
+                    organizationName: "ORT",
                     roles: getRole("admin")
                 }
             )
         )
-        await Organization.create({name: 'Aulas', APIToken: validToken})
+        await Organization.create({name: 'ORT', APIToken: validToken})  
     })
 
     it("Should generate a valid token", async function () {
         const res = await request('http://0.0.0.0')
-            .get('/organizations/Aulas/new-api-token')
-            .set('auth-token', adminAuthToken)
+            .get('/organizations/ORT/new-api-token')
+            .set('auth-token', adminAuthToken)            
             .set('api-token', validToken);
         expect(res).to.have.status(204);
         expect(res).to.have.header('api-token')
@@ -58,7 +58,7 @@ describe('New API Token ', async function () {
     });
 
     it("Should fail to generate a new token without auth-token", async function () {
-        const res = await request('http://0.0.0.0').get('/organizations/Aulas/new-api-token');
+        const res = await request('http://0.0.0.0').get('/organizations/ORT/new-api-token');
         expect(res).to.have.status(401);
         expect(res).to.be.a('object');
         expect(res).to.have.property('body');
@@ -66,7 +66,7 @@ describe('New API Token ', async function () {
 
     it("Should fail to generate a token without api-token", async function () {
         const res = await request('http://0.0.0.0')
-            .get('/organizations/Aulas/new-api-token')
+            .get('/organizations/ORT/new-api-token')
             .set('auth-token', adminAuthToken);
         expect(res).to.have.status(401);
         expect(res).to.be.a('object');
@@ -75,7 +75,7 @@ describe('New API Token ', async function () {
 
     it("Should fail to generate a token with invalid api-token", async function () {
         const res = await request('http://0.0.0.0')
-            .get('/organizations/Aulas/new-api-token')
+            .get('/organizations/ORT/new-api-token')
             .set('auth-token', adminAuthToken)
             .set('api-token', '14fa5945-ba31-43c6-a16q-bf41978fd1a6');
         expect(res).to.have.status(400);
@@ -92,7 +92,7 @@ describe('New API Token ', async function () {
                         name: "test",
                         email: "test@test.com",
                         password: "pass",
-                        organizationName: "Aulas",
+                        organizationName: "ORT",
                         roles: getRole("normal")
                     }
                 )
@@ -100,7 +100,7 @@ describe('New API Token ', async function () {
         });
 
         it("Should fail to generate a new token with invalid auth-token", async function () {
-            const res = await request('http://0.0.0.0').get('/organizations/Aulas/new-api-token').set('auth-token', userAuthToken);
+            const res = await request('http://0.0.0.0').get('/organizations/ORT/new-api-token').set('auth-token', userAuthToken);
             expect(res).to.have.status(403);
             expect(res).to.be.a('object');
             expect(res).to.have.property('body');
@@ -123,7 +123,7 @@ describe('New API Token ', async function () {
             );
         });
         it("Should fail to generate a new token with auth-token that not match with organization", async function () {
-            const res = await request('http://0.0.0.0').get('/organizations/Aulas/new-api-token').set('auth-token', authTokenWithWrongOrganization);
+            const res = await request('http://0.0.0.0').get('/organizations/ORT/new-api-token').set('auth-token', authTokenWithWrongOrganization);
             expect(res).to.have.status(400);
             expect(res).to.be.a('object');
             expect(res).to.have.property('body');

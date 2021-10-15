@@ -5,7 +5,7 @@ module.exports = {
     up: async (queryInterface, Sequelize) => {
         await queryInterface.bulkInsert('Organizations', [
             {
-                name: 'Aulas',
+                name: 'ORT',
                 APIToken: '778af6d5-f2eb-43e4-adeb-4530b9d0b6ac'
             },
         ], {})
@@ -15,7 +15,7 @@ module.exports = {
         await queryInterface.bulkDelete(
             'Organizations',
             {
-                name: "Aulas",
+                name: "ORT",
             }
         )
     }

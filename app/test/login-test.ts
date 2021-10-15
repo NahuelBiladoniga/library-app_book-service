@@ -23,16 +23,16 @@ describe('Login', async function () {
 
     before(async function () {
         await Organization.create({
-            name: 'Aulas',
+            name: 'ORT',
             APIToken: '778af6d5-f2eb-43e4-adeb-4530b9d0b6ac'
         })
 
-        await User.create({
-            id: 0,
-            name: 'Santiago Toscanini',
+        await User.create({   
+            id:0,
+            name: 'Admin',
             email: 'santi@library.com',
             password: 'secret-pass',
-            organizationName: 'Aulas',
+            organizationName: 'ORT',
             roles: 'admin,'
         })
     })
@@ -52,7 +52,7 @@ describe('Login', async function () {
         const res = await request('http://0.0.0.0').post('/login').send({
             email: "santi@library.com",
             password: "wrong-pass",
-            organizationName: "Aulas"
+            organizationName: "ORT"          
         });
         expect(res).to.have.status(400);
         expect(res).to.be.a('object');
@@ -63,7 +63,7 @@ describe('Login', async function () {
         const res = await request('http://0.0.0.0').post('/login').send({
             "email": "santi@library.com",
             "password": "secret-pass",
-            "organizationName": "Aulas"
+            "organizationName": "ORT"          
         });
         expect(res).to.have.status(200);
         expect(res).to.be.a('object');
