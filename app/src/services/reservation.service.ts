@@ -1,7 +1,7 @@
 import {Book} from "../database/models/book.model";
 import {Reservation} from "../database/models/reservation.model";
 import {Op} from "sequelize";
-import {RequestErrorDto} from "../dtos/requestError.dto";
+import {RequestErrorDto} from "../middlewares/errorHandler.middleware";
 import Logger from "../logger/implementation.logger";
 
 export default class ReservationService {

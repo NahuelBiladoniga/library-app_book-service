@@ -1,19 +1,17 @@
 {
   "module": "commonjs",
   "author": "Admin",
-  "name": "library_app",
+  "name": "library-app_book-service",
   "version": "1.0.0",
-  "description": "Backend for Library App",
+  "description": "Book service for Library app",
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
     "clean": "rm -rf build",
-    "build": "tsc && cp ./src/email/email.html ./build/src/email/email.html",
-    "start": "node build/src",
-    "test": "JWT_SECRET_KEY=jwt DB_DIALECT=postgres DB_SCHEMA=memory NODE_ENV=integration-test nyc mocha --exit --require ts-node/register test/**.ts"
+    "build": "tsc",
+    "start": "node build/src"
   },
   "dependencies": {
-    "@sendgrid/mail": "^7.4.7",
     "bcryptjs": "^2.4.3",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",

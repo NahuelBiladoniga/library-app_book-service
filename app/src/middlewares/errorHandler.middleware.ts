@@ -1,8 +1,16 @@
 import {NextFunction, Request, Response} from 'express'
-import {RequestErrorDto} from '../dtos/requestError.dto'
 import {JsonWebTokenError, TokenExpiredError} from 'jsonwebtoken'
 import {ValidationError} from "sequelize";
 import Logger from "../logger/implementation.logger";
+
+export class RequestErrorDto extends Error {
+    public status: number
+
+    constructor(message?: string, status?: number) {
+        super(message || 'Unknown Error')
+        this.status = status || 500
+    }
+}
 
 export default class ErrorHandlerMiddleware {
     static handle(err: Error, req: Request, res: Response, _: NextFunction) {

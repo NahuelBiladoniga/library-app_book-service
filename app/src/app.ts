@@ -1,15 +1,12 @@
 import express, {Application} from 'express'
 
-import LoginRoutes from './routes/login.routes'
-import UserRoutes from './routes/user.routes'
-import OrganizationRoutes from './routes/organization.routes'
 import StatusRoutes from './routes/status.routes'
 import BookRoutes from './routes/book.routes'
 import ErrorHandlerMiddleware from './middlewares/errorHandler.middleware'
 import {getPort} from "./utils/environment";
 import {Server} from 'http'
 import Logger from './logger/implementation.logger'
-import {RequestErrorDto} from "./dtos/requestError.dto";
+import {RequestErrorDto} from "./middlewares/errorHandler.middleware";
 
 export class App {
     private app: Application
@@ -34,9 +31,6 @@ export class App {
     }
 
     routes() {
-        this.app.use('/users', UserRoutes)
-        this.app.use('/login', LoginRoutes)
-        this.app.use('/organizations', OrganizationRoutes)
         this.app.use('/books', BookRoutes)
         this.app.use('/status', StatusRoutes)
     }
@@ -84,5 +78,4 @@ export class App {
         this.connections.forEach(curr => curr.end());
         setTimeout(() => this.connections.forEach(curr => curr.destroy()), 5000);
     }
-
 }

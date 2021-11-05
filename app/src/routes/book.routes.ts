@@ -1,59 +1,16 @@
 import {Router} from 'express'
 
-import TokenMiddleware from "../middlewares/token.middleware";
 import BookController from "../controllers/book.controller";
 import ReservationController from "../controllers/reservation.controller";
 
 const router: Router = Router()
 
-router.post(
-    '/',
-    TokenMiddleware.validateAdminToken,
-    TokenMiddleware.validateAPIToken,
-    TokenMiddleware.loadDataFromAuthToken,
-    BookController.createBook,
-)
-router.put(
-    '/:bookISBN',
-    TokenMiddleware.validateAdminToken,
-    TokenMiddleware.validateAPIToken,
-    TokenMiddleware.loadDataFromAuthToken,
-    BookController.updateBook,
-)
-router.delete(
-    '/:bookISBN',
-    TokenMiddleware.validateAdminToken,
-    TokenMiddleware.validateAPIToken,
-    TokenMiddleware.loadDataFromAuthToken,
-    BookController.deleteBook,
-)
-router.get(
-    '/',
-    TokenMiddleware.validateAdminOrUserToken,
-    TokenMiddleware.validateAPIToken,
-    TokenMiddleware.loadDataFromAuthToken,
-    BookController.getBooks
-)
-router.post(
-    '/:bookISBN/reservations',
-    TokenMiddleware.validateAPIToken,
-    TokenMiddleware.validateAdminOrUserToken,
-    TokenMiddleware.loadDataFromAuthToken,
-    ReservationController.createReservation,
-)
-router.get(
-    '/:bookISBN/reservations',
-    TokenMiddleware.validateAPIToken,
-    TokenMiddleware.validateAdminOrUserToken,
-    TokenMiddleware.loadDataFromAuthToken,
-    ReservationController.getReservationsOfBook,
-)
-router.get(
-    '/most-wanted',
-    TokenMiddleware.validateAPIToken,
-    TokenMiddleware.validateAdminOrUserToken,
-    TokenMiddleware.loadDataFromAuthToken,
-    BookController.getMostWantedBooks
-)
+router.post('/', BookController.createBook)
+router.put('/:bookISBN', BookController.updateBook)
+router.delete('/:bookISBN', BookController.deleteBook)
+router.get('/', BookController.getBooks)
+router.post('/:bookISBN/reservations', ReservationController.createReservation)
+router.get('/:bookISBN/reservations', ReservationController.getReservationsOfBook)
+router.get('/most-wanted', BookController.getMostWantedBooks)
 
 export default router

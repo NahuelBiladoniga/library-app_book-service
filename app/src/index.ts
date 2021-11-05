@@ -7,4 +7,4 @@ async function main() {
     await app.listen()
 }
 
-main().catch(err => Logger.error("Error trying to start the server!", err))
+main().catch(err => Logger.error("Error trying to start the Books and Reservations Service server!", err))
