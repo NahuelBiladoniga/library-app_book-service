@@ -7,10 +7,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
-    "clean": "rm -rf build",
-    "build": "tsc && cp ./src/email/email.html ./build/src/email/email.html",
+    "clean": "rd /s /q \".\\build\"",
+    "build": "tsc && copy \".\\src\\email\\email.html\" \".\\build\\src\\email\\email.html\"",
     "start": "node build/src",
-    "test": "JWT_SECRET_KEY=jwt DB_DIALECT=postgres DB_SCHEMA=memory NODE_ENV=integration-test nyc mocha --exit --require ts-node/register test/**.ts"
+    "test": " set \"JWT_SECRET_KEY=jwt\" && set \"DB_DIALECT=postgres\" && set \"DB_SCHEMA=memory\" && set \"NODE_ENV=integration-test\" && nyc mocha --exit --require ts-node/register test/**.ts"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.4.7",
