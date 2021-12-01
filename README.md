@@ -43,6 +43,8 @@ con cargas de 1200 requests por minuto
 * `JTW_SECRET_KEY`
 * `PORT`
 * `NEW_RELIC_LICENSE_KEY`
+* `ORGANIZATION_SERVICE_HOST`
+* `RESERVE_SERVICE_HOST`
 
 ## Migrations
 
@@ -58,6 +60,11 @@ To run migrations run:
 npx sequelize-cli db:migrate --url postgres://$USER:$PASSWORD@$URL:$PORT/$DB --migrations-path ./src/database/migrations
 ```
 
+For development run:
+```shell
+npx sequelize-cli db:migrate --url postgres://postgres:postgres@books-postgres:5432/postgres --migrations-path ./src/database/migrations
+```
+
 ## Seeds
 
 To generate new seed run:
@@ -71,6 +78,12 @@ To run seeds run:
 ```shell
 npx sequelize-cli db:seed:all --seeders-path ./src/database/seeders --url postgres://$USER:$PASSWORD@$URL:$PORT/$DB
 ```
+
+For development run:
+```shell
+npx sequelize-cli db:seed:all --seeders-path ./src/database/seeders --url postgres://postgres:postgres@books-postgres:5432/postgres
+```
+
 
 ## Docker
 

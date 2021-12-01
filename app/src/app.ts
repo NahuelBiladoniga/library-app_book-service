@@ -49,11 +49,6 @@ export class App {
         process.on('SIGTERM', this.shutDown)
         process.on('SIGINT', this.shutDown)
 
-        // Prints the number of open connections on console
-        setInterval(() => this.server.getConnections(
-            (err, connections) => Logger.info(`${connections} connections currently open`)
-        ), 3000)
-
         this.server.on('connection', connection => {
             this.connections.push(connection)
             connection.on('close', () => this.connections = this.connections.filter(curr => curr !== connection))

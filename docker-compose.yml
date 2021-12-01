@@ -1,40 +1,42 @@
 version: "3.8"
 
 services:
-  app:
+  book-app:
     build:
       context: .
       dockerfile: Dockerfile.dev
     environment:
-      DB_HOST: postgres
+      DB_HOST: books-postgres
       DB_USER: postgres
       DB_PASS: postgres
       DB_SCHEMA: postgres
       DB_DIALECT: postgres
-      JWT_SECRET_KEY: super_secret_key
       NODE_ENV: development
-      CACHE_HOST: redis
-      CACHE_PORT: 6379
       NEW_RELIC_LICENSE_KEY: "$NEW_RELIC_LICENSE_KEY"
       SENDGRID_API_KEY: "$SENDGRID_API_KEY"
+      ORGANIZATION_SERVICE_HOST: 'organization-app'
+      RESERVES_SERVICE_HOST: 'reserve-app'
     depends_on:
-      - postgres
-      - redis
+      - books-postgres
     ports:
       - "3000:80"
     volumes:
       - ./app/src:/app/src
 
-  postgres:
+  books-postgres:
     image: postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - '5432:5432'
+      - '2002:5432'
     volumes:
       - postgres-volume:/var/lib/postgresql/data
 
 volumes:
   postgres-volume:
-  redis-volume:
+
+networks:
+  default:
+    external: true
+    name: micros

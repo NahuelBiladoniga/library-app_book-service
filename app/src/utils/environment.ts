@@ -24,14 +24,9 @@ export function getDBConfig() {
     }
 }
 
-export function getMemoryDBURL(): string {
-    return `redis://${process.env.CACHE_HOST}:${process.env.CACHE_PORT}`
-}
-
-export function getJWTSecretKey(): string {
-    let JWTSecretKey = process.env.JWT_SECRET_KEY
-    if (JWTSecretKey == undefined) {
-        throw new Error('Secret need to be set!')
+export function getServicesConfig() {
+    return {
+        reserveService: process.env.RESERVES_SERVICE_HOST,
+        organizationService: process.env.ORGANIZATION_SERVICE_HOST
     }
-    return JWTSecretKey
 }

@@ -1,4 +1,0 @@
-Label,# Samples,Average,Min,Max,Std. Dev.,Error %,Throughput,Received KB/sec,Sent KB/sec,Avg. Bytes
-Most Wanted Books,11463,146,20,21047,276.62,0.105%,26.38897,6.38,12.59,247.6
-Get Reserves Books,11453,155,2,1567,49.30,0.087%,26.40449,6.45,14.43,250.1
-TOTAL,22916,151,2,21047,198.77,0.096%,52.75492,12.82,26.99,248.8

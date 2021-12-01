@@ -2,13 +2,27 @@ import {NextFunction, Request, Response} from 'express'
 import {BookService} from "../services/book.service";
 
 export default class BookController {
+    static async getBook(req: Request, res: Response, next: NextFunction) {
+        try {
+            const organizationName = req.header('organization-name')
+            const ISBN = req.params.bookISBN
+            const book = await BookService.getBook(ISBN, organizationName)
+
+            await res.json(book).status(200)
+        } catch (err) {
+            next(err)
+        }
+    }
+
     static async createBook(req: Request, res: Response, next: NextFunction) {
         try {
-            const {ISBN, title, author, year, organizationName, imagePath, totalExamples} = req.body
+            const organizationName = req.header('organization-name')
+            const {ISBN, title, author, year, imagePath, totalExamples} = req.body
+            console.log(organizationName)
 
             const book = await BookService.createBook(ISBN, title, author, year, organizationName, imagePath, totalExamples)
 
-            res.status(200).json(book)
+            await res.json(book).status(200)
         } catch (err) {
             next(err)
         }
@@ -16,11 +30,12 @@ export default class BookController {
 
     static async updateBook(req: Request, res: Response, next: NextFunction) {
         try {
-            const {title, author, year, totalExamples, imagePath, isActive, organizationName} = req.body
+            const organizationName = req.header('organization-name')
+            const {title, author, year, totalExamples, imagePath, isActive} = req.body
             const ISBN = req.params.bookISBN
 
             const book = await BookService.updateBook(ISBN, organizationName, isActive, title, author, year, totalExamples, imagePath)
-            res.status(200).json(book)
+            await res.json(book).status(200);
         } catch (err) {
             next(err)
         }
@@ -28,7 +43,7 @@ export default class BookController {
 
     static async deleteBook(req: Request, res: Response, next: NextFunction) {
         try {
-            const organizationName = req.body.organizationName
+            const organizationName = req.header('organization-name')
             const ISBN = req.params.bookISBN
 
             await BookService.deleteBook(ISBN, organizationName)
@@ -41,7 +56,7 @@ export default class BookController {
 
     static async getBooks(req: Request, res: Response, next: NextFunction) {
         try {
-            const organizationName = req.body.organizationName
+            const organizationName = req.header('organization-name')
             const {searchBy, limit, offset} = req.query
 
             const books = await BookService.getBooksFiltered(
@@ -50,17 +65,7 @@ export default class BookController {
                 parseInt(<string>limit),
                 parseInt(<string>offset),
             )
-            res.status(200).json({books: books})
-        } catch (err) {
-            next(err)
-        }
-    }
-
-    static async getMostWantedBooks(req: Request, res: Response, next: NextFunction) {
-        try {
-            const organizationName = req.body.organizationName
-            const books = await BookService.getMostWantedBooks(organizationName, 5)
-            res.json({books: books}).status(200)
+            res.json({books}).status(200)
         } catch (err) {
             next(err)
         }

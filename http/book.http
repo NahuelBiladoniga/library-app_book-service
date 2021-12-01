@@ -2,8 +2,7 @@
 # @no-log
 POST {{base_url}}:{{port}}/books
 Content-Type: application/json
-auth-token: Bearer {{auth-token}}
-api-token: Bearer {{api-token}}
+organization-name: ORT
 
 {
   "ISBN": "9780140862539",
@@ -17,46 +16,25 @@ api-token: Bearer {{api-token}}
 ### Delete
 # @no-log
 DELETE {{base_url}}:{{port}}/books/9780140862539
-auth-token: Bearer {{auth-token}}
-api-token: Bearer {{api-token}}
+organization-name: ORT
 
 ### Update
 # @no-log
-PUT {{base_url}}:{{port}}/books/978-1942788003
-auth-token: Bearer {{auth-token}}
-api-token: Bearer {{api-token}}
+PUT {{base_url}}:{{port}}/books/9780140862539
+organization-name: ORT
 Content-Type: application/json
 
 {
-  "totalExamples": 2
+  "totalExamples": 2,
+  "isActive": true
 }
 
 ### Catalog
 # @no-log
 GET {{base_url}}:{{port}}/books?searchBy=Gene&limit=3&offset=0
-auth-token: Bearer {{auth-token}}
-api-token: Bearer {{api-token}}
-
-### Reservation
-# @no-log
-POST {{base_url}}:{{port}}/books/9780140862539/reservations
-auth-token: Bearer {{auth-token}}
-api-token: Bearer {{api-token}}
-Content-Type: application/json
-
-// YYYY-mm-DD
-{
-  "reservationDate": "2021-09-19"
-}
-
-### Reservations
-# @no-log
-GET {{base_url}}:{{port}}/books/978-1942788003/reservations?dateFrom=2021-10-01&dateTo=2021-10-06&limit=4&offset=0
-auth-token: Bearer {{auth-token}}
-api-token: Bearer {{api-token}}
+organization-name: ORT
 
 ### The 5 most wanted books
 # @no-log
 GET {{base_url}}:{{port}}/books/most-wanted
-auth-token: Bearer {{auth-token}}
-api-token: Bearer {{api-token}}
+organization-name: ORT

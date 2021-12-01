@@ -1,6 +1,6 @@
 ### Login Admin
 # @no-log
-POST {{base_url}}:{{port}}/login
+POST {{login_url}}/login
 Content-Type: application/json
 
 {
@@ -16,7 +16,7 @@ Content-Type: application/json
 
 ### Login Student
 # @no-log
-POST {{base_url}}:{{port}}/login
+POST {{login_url}}/login
 Content-Type: application/json
 
 {
