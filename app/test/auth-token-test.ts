@@ -8,12 +8,14 @@ import {getRole} from "../src/utils/roles";
 import {Organization} from "../src/database/models/organization.model";
 import sequelize from '../src/database/setup'
 import {createUUID} from '../src/utils/uuid';
+import {getPort} from "../src/utils/environment";
 
 chai.use(require('chai-http'));
 
 describe('New API Token ', async function () {
     const app = new App()
     const validToken = createUUID()
+    const port = getPort()
 
     this.beforeAll(async function () {
         app.listen()
@@ -42,7 +44,7 @@ describe('New API Token ', async function () {
     })
 
     it("Should generate a valid token", async function () {
-        const res = await request('http://0.0.0.0')
+        const res = await request(`http://0.0.0.0:${port}`)
             .get('/organizations/Aulas/new-api-token')
             .set('auth-token', adminAuthToken)
             .set('api-token', validToken);
@@ -51,21 +53,21 @@ describe('New API Token ', async function () {
     });
 
     it("Should fail to generate a new token invalid organization", async function () {
-        const res = await request('http://0.0.0.0').get('/organizations/InvalidOrg/new-api-token');
+        const res = await request(`http://0.0.0.0:${port}`).get('/organizations/InvalidOrg/new-api-token');
         expect(res).to.have.status(401);
         expect(res).to.be.a('object');
         expect(res).to.have.property('body');
     });
 
     it("Should fail to generate a new token without auth-token", async function () {
-        const res = await request('http://0.0.0.0').get('/organizations/Aulas/new-api-token');
+        const res = await request(`http://0.0.0.0:${port}`).get('/organizations/Aulas/new-api-token');
         expect(res).to.have.status(401);
         expect(res).to.be.a('object');
         expect(res).to.have.property('body');
     });
 
     it("Should fail to generate a token without api-token", async function () {
-        const res = await request('http://0.0.0.0')
+        const res = await request(`http://0.0.0.0:${port}`)
             .get('/organizations/Aulas/new-api-token')
             .set('auth-token', adminAuthToken);
         expect(res).to.have.status(401);
@@ -74,7 +76,7 @@ describe('New API Token ', async function () {
     });
 
     it("Should fail to generate a token with invalid api-token", async function () {
-        const res = await request('http://0.0.0.0')
+        const res = await request(`http://0.0.0.0:${port}`)
             .get('/organizations/Aulas/new-api-token')
             .set('auth-token', adminAuthToken)
             .set('api-token', '14fa5945-ba31-43c6-a16q-bf41978fd1a6');
@@ -100,7 +102,7 @@ describe('New API Token ', async function () {
         });
 
         it("Should fail to generate a new token with invalid auth-token", async function () {
-            const res = await request('http://0.0.0.0').get('/organizations/Aulas/new-api-token').set('auth-token', userAuthToken);
+            const res = await request(`http://0.0.0.0:${port}`).get('/organizations/Aulas/new-api-token').set('auth-token', userAuthToken);
             expect(res).to.have.status(403);
             expect(res).to.be.a('object');
             expect(res).to.have.property('body');
@@ -123,7 +125,7 @@ describe('New API Token ', async function () {
             );
         });
         it("Should fail to generate a new token with auth-token that not match with organization", async function () {
-            const res = await request('http://0.0.0.0').get('/organizations/Aulas/new-api-token').set('auth-token', authTokenWithWrongOrganization);
+            const res = await request(`http://0.0.0.0:${port}`).get('/organizations/Aulas/new-api-token').set('auth-token', authTokenWithWrongOrganization);
             expect(res).to.have.status(400);
             expect(res).to.be.a('object');
             expect(res).to.have.property('body');

@@ -5,11 +5,13 @@ import {App} from '../src/app'
 import {User} from "../src/database/models/user.model";
 import {Organization} from "../src/database/models/organization.model";
 import sequelize from '../src/database/setup'
+import {getPort} from "../src/utils/environment";
 
 chai.use(require('chai-http'));
 
 describe('Login', async function () {
     const app = new App()
+    const port = getPort()
 
     this.beforeAll(async function () {
         app.listen()
@@ -38,7 +40,7 @@ describe('Login', async function () {
     })
 
     it("Should fail to authenticate user, invalid user", async function () {
-        const res = await request('http://0.0.0.0').post('/login').send({
+        const res = await request(`http://0.0.0.0:${port}`).post('/login').send({
             email: "santi@notest.com",
             password: "secret-pass",
             organizationName: "Invalid Org"
@@ -49,7 +51,7 @@ describe('Login', async function () {
     });
 
     it("Should fail to authenticate user, invalid password", async function () {
-        const res = await request('http://0.0.0.0').post('/login').send({
+        const res = await request(`http://0.0.0.0:${port}`).post('/login').send({
             email: "santi@library.com",
             password: "wrong-pass",
             organizationName: "Aulas"
@@ -60,7 +62,7 @@ describe('Login', async function () {
     });
 
     it("Should authenticate user", async function () {
-        const res = await request('http://0.0.0.0').post('/login').send({
+        const res = await request(`http://0.0.0.0:${port}`).post('/login').send({
             "email": "santi@library.com",
             "password": "secret-pass",
             "organizationName": "Aulas"
