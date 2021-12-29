@@ -15,7 +15,7 @@ jobs:
           node-version: 12
       - run: npm i
         working-directory: ./app
-      - run: npm test -- --coverage
+      - run: npm test
         working-directory: ./app
       - run: npm run clean
         working-directory: ./app
