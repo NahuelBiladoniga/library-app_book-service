@@ -3,7 +3,8 @@ name: NodeJS Continious Integration
 on:
   pull_request:
     branches: [ main ]
-
+  push:
+    branches: [ jenkins-demo ]
 jobs:
   test_pull_request:
     runs-on: ubuntu-latest
@@ -14,9 +15,13 @@ jobs:
           node-version: 12
       - run: npm i
         working-directory: ./app
-      - run: sudo npm test
+      - run: npm test -- --coverage
         working-directory: ./app
       - run: npm run clean
         working-directory: ./app
       - run: npm run build
         working-directory: ./app
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
